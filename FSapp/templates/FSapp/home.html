@@ -1,38 +1,42 @@
-<div class="tab">
-    <button class="tablinks" onclick="openCity(event, 'London')">London</button>
-    <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
-  </div>
-  
-  <div id="London" class="tabcontent">
-    <h3>London</h3>
-    <p>London is the capital city of England.</p>
-  </div>
-  
-  <div id="Paris" class="tabcontent">
-    <h3>Paris</h3>
-    <p>Paris is the capital of France.</p> 
-  </div>
-  
-  <div id="Tokyo" class="tabcontent">
-    <h3>Tokyo</h3>
-    <p>Tokyo is the capital of Japan.</p>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
 
-
- #Content to use maybe some other time 
-#Block sidebar 
-<div class=" w3-block" style="width:25%"> 
-    <h2>
-    <a href="/" class="w3-sidebar w3-bar-item w3-button">Home</a>
-    <br>
-    
-    <a href="/" class="w3-bar-item w3-button">Account</a> 
-
-</h2>
-   
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Aufgabensammlung Exphys</a>
+    </div>
+    <ul class="nav navbar-nav">
+    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Aufgabensammlung<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="#">ExPhys1</a></li>
+            <li><a href="#">ExPhys2</a></li>
+            <li><a href="#">ExPhys3</a></li>
+        </ul>
+        </li>
+      <li><a href="#">Page 2</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
   </div>
+</nav>
   
-  <div style="margin-left:25%">
-  
-  </div>
+<div class="container">
+  <h3>Right Aligned Navbar</h3>
+  <p>The .navbar-right class is used to right-align navigation bar buttons.</p>
+</div>
+
+</body>
+</html>
+

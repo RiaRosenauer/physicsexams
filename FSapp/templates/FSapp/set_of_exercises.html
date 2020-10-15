@@ -29,7 +29,7 @@
     <p>Sortieren</p>
     <button class='btn btn-primary' id='submit'>Submit</button>
     <br><br>
-    <table>
+    <table id='query_result'>
       <tr>
         <th>Aufgabe</th>
         <th>Jahr</th>
@@ -39,7 +39,7 @@
         <th>Level</th>
         <th>Bearbeitungsstatus</th>
       </tr>
-
+      
       {% for ex in exercises %}
       <tr>
         <td><a href='{% url "exercise_view" ex.pk %}'>{{ ex.name }}</a></td>
@@ -51,12 +51,15 @@
 
       </tr>
      {% endfor %}
+    
     </table>
     
 
 <script>
   $('#submit').click(function(){
-    console.log($('#search').val())
+    console.log($('#search').val());
+    console.log($('#query_result').html());
+    
     $.ajax({
       url:'exerciseSet',
       data: {
@@ -64,7 +67,8 @@
       },
       dataType:'json',
       success: function(data){
-        console.log('success');
+        console.log(data);
+        $('#query_result').html(data);
 
       }
     })

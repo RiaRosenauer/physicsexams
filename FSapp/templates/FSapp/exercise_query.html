@@ -1,3 +1,23 @@
-{% extends 'base.html' %}
-{% block content %}
-{% endblock %}
+
+    <tr>
+        <th>Aufgabe</th>
+        <th>Jahr</th>
+        <th>Fach</th>
+        <th>Professor</th>
+        
+        <th>Level</th>
+        <th>Bearbeitungsstatus</th>
+      </tr>
+      
+    {% for ex in exercises %}
+    <tr>
+        <td><a href='{% url "exercise_view" ex.pk %}'>{{ ex.name }}</a></td>
+        <td>{{ ex.year }}</td>
+        <td>{{ ex.course }}</td>
+        <td>{{ ex.professor }}</td>
+        <td>{{ ex.difficulty}}</td>
+        <td>{{ ex.exam }}</td>
+    
+    </tr>
+    {% endfor %}
+

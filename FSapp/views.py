@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.utils.safestring import mark_safe
 from FSapp.models import Exam, Exercise, Student, Professor
 from django.http import JsonResponse 
+from django.template.loader import render_to_string
 def home(request):
     return render(request, 'FSapp/home.html')
 
@@ -14,9 +15,10 @@ def set_of_exercises(request):
         'exercises': Exercise.objects.filter(name__icontains=search)
     }
     if request.is_ajax():
-        exercise_query(request)
+        html = render_to_string('FSapp/exercise_query.html', context=context)
 
-        #return JsonResponse(list(Exercise.objects.filter(name__icontains=search)), safe=False) 
+        return JsonResponse(html, safe=False) 
+
     return render(request, 'FSapp/set_of_exercises.html', context=context)
 
 def favourites(request):
@@ -31,8 +33,5 @@ def exercise_view(request,pk):
     }
     return render(request, 'FSapp/exercise_view.html',context)
 
-def exercise_query(request):
-    print('sdfsdf')
 
-    return render(request, 'FSapp/exercise_query.html',context={})
 # Create your views here.

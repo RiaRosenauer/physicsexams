@@ -63,7 +63,12 @@ div.container {
     <br>
 
     
-<button class='btn btn-primary' id='solution_click'>Lösung</button>
+<button class='btn btn-light' id='solution_click'>Lösung</button>
+<div class='btn-group'>
+    <button type='button' class='btn btn-light' id='solved'>Geschafft</button>
+    <button type='button' class='btn btn-primary active' id='not_solved'><b>Nicht Geschafft</b></button>
+</div>
+
 <div id='solution'  class='card' >
    <br><br>
     <latex-js baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/">
@@ -92,6 +97,8 @@ $('#solution_click').click(function(){
     $('#solution').toggle();
 
 })
+
+
 </script>
 
 

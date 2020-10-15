@@ -23,7 +23,12 @@
     <body>
      
     <h2>Aufgabensammlung</h2>
-    
+    <p>Suche</p>
+    <input type='text' id='search'>
+    <p>Filtern</p>
+    <p>Sortieren</p>
+    <button class='btn btn-primary' id='submit'>Submit</button>
+    <br><br>
     <table>
       <tr>
         <th>Aufgabe</th>
@@ -48,8 +53,22 @@
      {% endfor %}
     </table>
     
-    </body>
-    </html>
-    
+
+<script>
+  $('#submit').click(function(){
+    console.log($('#search').val())
+    $.ajax({
+      url:'exerciseSet',
+      data: {
+        'search':$('#search').val()
+      },
+      dataType:'json',
+      success: function(data){
+        console.log('success');
+
+      }
+    })
+  })
+</script>
     
 {% endblock %}

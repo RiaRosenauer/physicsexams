@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
+from FSapp.models import Exam, Exercise, Student
 
 def home(request):
     return render(request, 'FSapp/home.html')

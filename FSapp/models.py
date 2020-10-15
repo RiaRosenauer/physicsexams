@@ -20,6 +20,15 @@ class Exam(models.Model):
 
     year = models.IntegerField()
 
+    professor_choice = [
+        ('kien','Pr. Kienberger')
+    ]
+    professor = models.CharField(
+        max_length=20,
+        choices = professor_choice,
+        default= 'kien'
+    )
+
 
 class Exercise(models.Model):
 

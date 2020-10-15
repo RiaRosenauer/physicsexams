@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if user.is_authenticated %}
 <h2><a href="">This is to repeat</a></h2>
+{% else %}
+<h2><a href="">Sorry, but you need to be loged in!</a></h2>
+{% endif %}
+
 {% endblock %}

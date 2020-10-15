@@ -1,7 +1,7 @@
-from django.db import models
-from django.contrib.auth.models import User 
-from django_mysql.models import ListCharField 
-import datetime
+#from django.db import models
+#from django.contrib.auth.models import User 
+#from django_mysql.models import ListCharField 
+'''
 
 # Create your models here.
 class Exam(models.Model):
@@ -56,11 +56,11 @@ class Exercise(models.Model):
         default='EXP1'
     )
 
-    subject = ListCharField(
+    '''"""subject = ListCharField(
         base_field = models.CharField(max_length=20),
         size = 5,
         max_length = 100
-    )
+    )"""'''
     
 
 class Student(models.Model):
@@ -70,3 +70,4 @@ class Student(models.Model):
 
     failed_exercises = models.ManyToManyField(Exercise)
 
+'''

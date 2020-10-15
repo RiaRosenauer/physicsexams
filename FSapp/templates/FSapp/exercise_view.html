@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<script type="module">
+    import { LaTeXJSComponent } from "https://cdn.jsdelivr.net/npm/latex.js/dist/latex.mjs"
+    customElements.define("latex-js", LaTeXJSComponent)
+  </script>
+<title>LaTeX.js Web Component Test</title>
+</head>
+
+<body>
+<h1>Compiling LaTeX</h1>
+
+<latex-js baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/">
+\documentclass{article}
+
+\begin{document}
+
+{{ exercise }}
+
+{{ exercise.question }}
+
+
+
+
+
+\end{document}
+</latex-js>    
+
+
+{% endblock %}

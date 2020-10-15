@@ -20,8 +20,11 @@ def favourites(request):
 def to_repeat(request):
     return render(request, 'FSapp/to_repeat.html')
 
-
-
+def exercise_view(request,pk):
+    context={
+        'exercise':Exercise.objects.filter(pk=pk)[0]
+    }
+    return render(request, 'FSapp/exercise_view.html',context)
 
 
 # Create your views here.

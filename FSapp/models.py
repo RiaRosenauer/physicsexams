@@ -25,12 +25,32 @@ class Exam(models.Model):
         default='k'
     )
 
-    year = models.IntegerField()
+    year = models.CharField(
+        max_length=10,
+        default='20'
+    )
 
     
     
     def __str__(self):
         return self.name
+
+class Subject(models.Model):
+    course_choice = [
+        ('EXP1', 'Experimentalphysik 1'),
+        ('EXP2', 'Experimentalphysik 2'),
+        ('EXP3', 'Experimentalphysik 3'),
+        ('EXP4', 'Experimentalphysik 4'),
+    ]
+
+    course = models.CharField(
+        max_length=10,
+        choices=course_choice,
+        default='e'
+    )
+
+    name = models.CharField(max_length=100)
+
 
 class Exercise(models.Model):
 
@@ -67,11 +87,10 @@ class Exercise(models.Model):
         default='EXP1'
     )
 
-    subject = ListCharField(
-        base_field = models.CharField(max_length=20),
-        size = 5,
-        max_length = 104
-    )
+    subject = models.ManyToManyField(Subject, blank=True)
+    
+
+    image1 = models.ImageField(upload_to='LatexImages/', blank=True, null=True)
     
     def __str__(self):
         return self.name

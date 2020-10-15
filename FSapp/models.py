@@ -71,9 +71,11 @@ class Exercise(models.Model):
         default='e'
     )
 
-    year = models.IntegerField()
+    year = models.IntegerField(blank=True, null=True)
 
     exam = models.ManyToManyField(Exam, blank=True)
+
+    exerciseNumber = models.IntegerField(blank=True, null=True)
 
     course = models.ForeignKey(Course,null=True, blank=True, on_delete=models.CASCADE)
 

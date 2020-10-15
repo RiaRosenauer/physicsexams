@@ -31,8 +31,6 @@ class Exam(models.Model):
         default='20'
     )
 
-    
-    
     def __str__(self):
         return self.name
 
@@ -43,10 +41,7 @@ class Course(models.Model):
         return self.name 
 
 class Subject(models.Model):
-
     course = models.ForeignKey(Course,null=True, blank=True, on_delete=models.CASCADE)
-
-
     name = models.CharField(max_length=100)
 
     def __str__(self):

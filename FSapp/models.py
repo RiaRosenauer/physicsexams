@@ -4,6 +4,9 @@ from django_mysql.models import ListCharField
 
 
 # Create your models here.
+class Professor(models.Model):
+    name = models.CharField(max_length=30)
+
 class Exam(models.Model):
     name = models.CharField(max_length=100)
 
@@ -20,15 +23,11 @@ class Exam(models.Model):
 
     year = models.IntegerField()
 
-    professor_choice = [
-        ('kien','Pr. Kienberger')
-    ]
-    professor = models.CharField(
-        max_length=20,
-        choices = professor_choice,
-        default= 'kien'
-    )
+    
+    professor = models.ForeignKey(Professor, null=True, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
 
 class Exercise(models.Model):
 
@@ -71,6 +70,8 @@ class Exercise(models.Model):
         max_length = 104
     )
     
+    def __str__(self):
+        return self.name
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

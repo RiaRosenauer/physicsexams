@@ -7,6 +7,11 @@ def home(request):
     return render(request, 'FSapp/home.html')
 
 def set_of_exercises(request):
+
+    context ={
+        'exercises':Exercise.objects.all()
+    }
+    print(context['exercises'][0])
     return render(request, 'FSapp/set_of_exercises.html')
 
 def favourites(request):

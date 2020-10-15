@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('FSapp.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path(r'chaining/', include('smart_selects.urls')),
 ]

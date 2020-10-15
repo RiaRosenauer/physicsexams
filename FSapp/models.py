@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User 
 from django_mysql.models import ListCharField 
+from smart_selects.db_fields import ChainedManyToManyField
 
 
 # Create your models here.
@@ -35,21 +36,21 @@ class Exam(models.Model):
     def __str__(self):
         return self.name
 
-class Subject(models.Model):
-    course_choice = [
-        ('EXP1', 'Experimentalphysik 1'),
-        ('EXP2', 'Experimentalphysik 2'),
-        ('EXP3', 'Experimentalphysik 3'),
-        ('EXP4', 'Experimentalphysik 4'),
-    ]
+class Course(models.Model):
+    name = models.CharField(max_length=100)
 
-    course = models.CharField(
-        max_length=10,
-        choices=course_choice,
-        default='e'
-    )
+    def __str__(self):
+        return self.name 
+
+class Subject(models.Model):
+
+    course = models.ForeignKey(Course,null=True, blank=True, on_delete=models.CASCADE)
+
 
     name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name 
 
 
 class Exercise(models.Model):
@@ -74,21 +75,14 @@ class Exercise(models.Model):
 
     exam = models.ManyToManyField(Exam, blank=True)
 
-    course_choice = [
-        ('EXP1', 'Experimentalphysik 1'),
-        ('EXP2', 'Experimentalphysik 2'),
-        ('EXP3', 'Experimentalphysik 3'),
-        ('EXP4', 'Experimentalphysik 4'),
-    ]
+    course = models.ForeignKey(Course,null=True, blank=True, on_delete=models.CASCADE)
 
-    course = models.CharField(
-        max_length=10,
-        choices=course_choice,
-        default='EXP1'
-    )
-
-    subject = models.ManyToManyField(Subject, blank=True)
-    
+    subject = ChainedManyToManyField(
+        Subject,
+        horizontal=True,
+        chained_field="course",
+        chained_model_field="course",
+        verbose_name='subject')
 
     image1 = models.ImageField(upload_to='LatexImages/', blank=True, null=True)
     

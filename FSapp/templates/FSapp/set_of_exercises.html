@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2><a href="">This is set of exercises</a></h2>
+<h2><a href="">Repetitorium der Physik</a></h2>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <style>
     table {
       
@@ -20,8 +21,8 @@
     </style>
     </head>
     <body>
-    
-    <h2>HTML Table</h2>
+     
+    <h2>Aufgabensammlung</h2>
     
     <table>
       <tr>
@@ -37,8 +38,12 @@
       {% for ex in exercises %}
       <tr>
         <td><a href='{% url "exercise_view" ex.pk %}'>{{ ex.name }}</a></td>
-        <td>Maria Anders</td>
-        <td>Germany</td>
+        <td>{{ ex.year }}</td>
+        <td>{{ ex.course }}</td>
+        <td>{{ ex.professor }}</td>
+        <td>{{ ex.difficulty}}</td>
+        <td>{{ ex.exam }}</td>
+
       </tr>
      {% endfor %}
     </table>

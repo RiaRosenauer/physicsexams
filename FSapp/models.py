@@ -4,11 +4,15 @@ from django_mysql.models import ListCharField
 
 
 # Create your models here.
+
 class Professor(models.Model):
     name = models.CharField(max_length=30)
+    def __str__(self):
+        return self.name 
 
 class Exam(models.Model):
     name = models.CharField(max_length=100)
+    professor = models.ForeignKey(Professor,null=True, blank=True, on_delete=models.CASCADE)
 
     exam_type_choices = [
         ('p', 'Probeklausur'),
@@ -24,8 +28,7 @@ class Exam(models.Model):
     year = models.IntegerField()
 
     
-    professor = models.ForeignKey(Professor, null=True, on_delete=models.CASCADE)
-
+    
     def __str__(self):
         return self.name
 
@@ -49,7 +52,7 @@ class Exercise(models.Model):
 
     year = models.IntegerField()
 
-    exam = models.ManyToManyField(Exam)
+    exam = models.ManyToManyField(Exam, blank=True)
 
     course_choice = [
         ('EXP1', 'Experimentalphysik 1'),
@@ -76,7 +79,7 @@ class Exercise(models.Model):
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    solved_exercises = models.ManyToManyField(Exercise, related_name='student_solved')
+    solved_exercises = models.ManyToManyField(Exercise, null=True, blank=True,related_name='student_solved')
 
-    failed_exercises = models.ManyToManyField(Exercise, related_name='student_failed')
+    failed_exercises = models.ManyToManyField(Exercise,null=True, blank=True, related_name='student_failed')
 

@@ -30,7 +30,7 @@
         <th>Country</th>
       </tr>
 
-      {% for ex in exercise %}
+      {% for ex in exercises %}
       <tr>
         <td>{{ ex.name }}</td>
         <td>Maria Anders</td>
@@ -38,7 +38,34 @@
       </tr>
      {% endfor %}
     </table>
+    <script type="module">
+        import { LaTeXJSComponent } from "https://cdn.jsdelivr.net/npm/latex.js/dist/latex.mjs"
+        customElements.define("latex-js", LaTeXJSComponent)
+      </script>
+<title>LaTeX.js Web Component Test</title>
+</head>
+
+<body>
+  <h1>Compiling LaTeX</h1>
+
+  <latex-js baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/">
+    \documentclass{article}
+
+    \begin{document}
     
+
+\[ \frac{1}{2}= 1/2 \]
+\[
+\int_0^{\infty} \frac{1}{1+x^2} dx = \arctan(x)
+\]
+
+
+
+
+
+
+    \end{document}
+  </latex-js>    
     </body>
     </html>
     

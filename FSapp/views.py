@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
-from FSapp.models import Exam, Exercise, Student
+from FSapp.models import Exam, Exercise, Student, Professor
 
 def home(request):
     return render(request, 'FSapp/home.html')
@@ -9,10 +9,10 @@ def home(request):
 def set_of_exercises(request):
 
     context ={
-        'exercises':Exercise.objects.all()
+        'exercises': Exercise.objects.all()
     }
     print(context['exercises'][0])
-    return render(request, 'FSapp/set_of_exercises.html')
+    return render(request, 'FSapp/set_of_exercises.html', context=context)
 
 def favourites(request):
     return render(request, 'FSapp/favourites.html')

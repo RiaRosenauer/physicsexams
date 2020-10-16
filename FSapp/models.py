@@ -93,3 +93,4 @@ class Student(models.Model):
 
     failed_exercises = models.ManyToManyField(Exercise,null=True, blank=True, related_name='student_failed')
 
+    favourite_exercises = models.ManyToManyField(Exercise,null=True, blank=True, related_name='student_favourite')

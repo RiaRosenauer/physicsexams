@@ -47,6 +47,23 @@ def exercise_view_ajax(request):
         student.failed_exercises.add(exercise)
     return JsonResponse({})
 
+
+@login_required
+def favourite_ajax(request):
+    exercise = request.GET.get('exercise')
+    favourite = request.GET.get('favourite')
+    student = Student.objects.filter(user=request.user)[0]
+    if favourite == 'true':
+        student.favourite_exercises.add(exercise)
+    else:
+        student.favourite_exercises.remove(exercise)
+    return JsonResponse({})
+
+
+
+
+
+
 @login_required
 def exercise_view(request,pk):
     exercise = Exercise.objects.filter(pk=pk)[0]
@@ -62,11 +79,20 @@ def exercise_view(request,pk):
         else:
             solved = False
             already_done = False
+    if exercise in student.favourite_exercises.all():
+        print(student.favourite_exercises.all())
+        favourite = True
+    else:
+        favourite = False
+
     context={
     'exercise': exercise,
     'solved': solved,
     'already_done': already_done,
+    'favourite_exercise': favourite
     }
+
+
     return render(request, 'FSapp/exercise_view.html',context)
 
 

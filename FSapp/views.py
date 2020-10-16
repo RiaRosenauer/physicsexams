@@ -56,12 +56,20 @@ def favourites(request):
 @login_required
 def to_repeat(request):
     student = Student.objects.filter(user=request.user)[0]
-    print(student.failed_exercises.all())
+    exams = set()
+
+    exercises = student.failed_exercises.all()
+    for ex in exercises:
+        exam = ex.exam.all()
+        for e in exam:
+            exams.add(e)
     context = {
-        'exercises': student.failed_exercises.all(),
+        'exercises': exercises,
         'subjects': Subject.objects.all(),
         'courses': Course.objects.all(),
+        'exams': exams
     }
+
     return render(request, 'FSapp/to_repeat.html', context)
 
 @login_required

@@ -53,14 +53,16 @@ def favourites(request):
 
     return render(request, 'FSapp/favourites.html', context=context)
 
+@login_required
 def to_repeat(request):
     student = Student.objects.filter(user=request.user)[0]
+    print(student.failed_exercises.all())
     context = {
         'exercises': student.failed_exercises.all(),
         'subjects': Subject.objects.all(),
         'courses': Course.objects.all(),
     }
-    return render(request, 'FSapp/to_repeat.html')
+    return render(request, 'FSapp/to_repeat.html', context)
 
 @login_required
 def exercise_view_ajax(request):

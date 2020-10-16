@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2><a href="">Sollte ich nochmal machen</a></h2>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<h2><a href="">Repetitorium der Physik</a></h2>
 <style>
     table {
       
@@ -27,8 +26,10 @@
 
     </head>
     <body>
+      <h2>{{ request.url }}</h2>
 
      
+    
     <p>Suche</p>
     <input type='text' id='search'>
 
@@ -147,7 +148,7 @@
     console.log($('#query_result').html());
     
     $.ajax({
-      url:'exerciseSet',
+      url:'Aufgabensammlung',
       data: {
         'search':$('#search').val(),
 
@@ -173,43 +174,3 @@
 </script>
     
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-------- 
-<a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
-<a id="popoverOption" class="btn" href="#" data-content="Popup with option trigger" rel="popover"
- data-placement="bottom" data-original-title="Title">Popup with option trigger</a>
-<script>
-    
-
-    $(document).ready(function(){
-  $('[data-toggle="popover"]').popover(); 
-});
-
-
-</script> ---->
-
-
-
-
-
-

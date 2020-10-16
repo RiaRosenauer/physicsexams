@@ -55,11 +55,13 @@ class Exercise(models.Model):
 
     question = models.TextField()
     answer = models.TextField()
+
+    preview = models.TextField()
     
     difficulty_choices = [
-        ('&#x1F534; &#x26AA; &#x26AA;','einfach'),
-        ('&#x1F534; &#x1F534; &#x26AA;','mittel'),
-        ('&#x1F534; &#x1F534; &#x1F534;','schwer')
+        (u'&#x1F534; &#x26AA; &#x26AA;','einfach'),
+        (u'&#x1F534; &#x1F534; &#x26AA;','mittel'),
+        (u'&#x1F534; &#x1F534; &#x1F534;','schwer')
     ]
 
     difficulty = models.CharField(

@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2><a href="">Repetitorium der Physik</a></h2>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <style>
     table {
-      
       border-collapse: collapse;
       width: 100%;
     }
@@ -115,14 +115,14 @@
       {% for ex in exercises %}
       <tr>
         
-        <td><a href='{% url "exercise_view" ex.pk %}' data-toggle="popover" title="{{ ex.name }}" 
+        <td><a href='{% url "exercise_view" ex.pk %}' data-html='true' data-toggle="popover" title="{{ ex.name }}" 
           data-content='{{ ex.preview }} '
-            id="popoverOption" rel="popover"
+            id="popoverOption" class="btn" rel="popover"
             data-placement="right" data-original-title="{{ ex.name }}">{{ ex.name }}</a></td>
         <td>{{ ex.year }}</td>
         <td>{{ ex.course }}</td>
         <td>{{ ex.professor }}</td>
-        <td>{{ ex.difficulty | safe}}</td>
+        <td>{{ ex.difficulty}}</td>
         <td>{{ ex.exam }}</td>
 
       </tr>
@@ -137,10 +137,10 @@
       
       
 <script>
-  
+  $('.btn').popover({ trigger: "hover" , html:true, sanitize:false });
 
   $(document).ready(function() {
-    $('[data-toggle="popover"]').popover({trigger: 'hover'});
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 });
 
   $('#submit').click(function(){

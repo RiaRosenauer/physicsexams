@@ -56,6 +56,43 @@ def favourites(request):
     return render(request, 'FSapp/favourites.html', context=context)
 
 @login_required
+def to_repeat_ajax(request):
+    print("here")
+    student = Student.objects.filter(user=request.user)[0]
+
+    exercises = student.failed_exercises.all()
+
+    data = request.GET
+    if data.get('sort_by') == 'klausur':
+        exams = set()
+        for ex in exercises:
+            exam = ex.exam.all()
+            for e in exam:
+                exams.add(e)
+        context = {
+        'exercises': exercises,
+        'courses': Course.objects.all(),
+        'exams': exams
+        }
+        html = render_to_string('FSapp/to_repeat_exam.html', context=context)
+    else:
+        subjects = set()
+
+        for ex in exercises:
+            subject = ex.subject.all()
+            for sub in subject:
+                subjects.add(sub)
+
+        context = {
+        'exercises': exercises,
+        'courses': Course.objects.all(),
+        'subjects': subjects
+        }
+        print(subjects)
+        html = render_to_string('FSapp/to_repeat_subject.html', context=context)
+    return JsonResponse(html, safe=False) 
+
+@login_required
 def to_repeat(request):
     student = Student.objects.filter(user=request.user)[0]
     exams = set()
@@ -67,7 +104,6 @@ def to_repeat(request):
             exams.add(e)
     context = {
         'exercises': exercises,
-        'subjects': Subject.objects.all(),
         'courses': Course.objects.all(),
         'exams': exams
     }

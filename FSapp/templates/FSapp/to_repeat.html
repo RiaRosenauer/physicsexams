@@ -12,6 +12,13 @@
   }
 </style>
 
+<select class="mdb-select md-form" id="select">
+  <option value="klausur" disabled selected>Sortieren nach....</option>
+  <option value="klausur">Klausur</option>
+  <option value="thema">Thema</option>
+</select>
+
+<div id="display">
 {% for course in courses%}
 <h2 style="color:#D3D3D3">{{course.name}}</h2>
   {% for e in exams%}
@@ -33,5 +40,34 @@
   {% endfor%}
   </div>
   {% endfor%}
-{% endfor%}    
+{% endfor%}
+</div> 
+
+
+<script>
+  $('#select').change(function(){
+    console.log("was clocked");
+    console.log($(this).val());
+    
+    $.ajax({
+      url:'toRepeat_ajax',
+      data: {
+        'sort_by': $(this).val(),
+      },
+      dataType:'json',
+      success: function(data){
+        $('#display').html(data);
+        console.log($('#display').html());
+      }
+    })
+  })
+</script>
+
+
+
+
+
+
+
+
 {% endblock %}

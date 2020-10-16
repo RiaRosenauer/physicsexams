@@ -8,6 +8,7 @@ from smart_selects.db_fields import ChainedManyToManyField
 
 class Professor(models.Model):
     name = models.CharField(max_length=30)
+
     def __str__(self):
         return self.name 
 
@@ -56,12 +57,13 @@ class Exercise(models.Model):
     answer = models.TextField()
     
     difficulty_choices = [
-        ('e','einfach'),
-        ('m','mittel'),
-        ('s','schwer')
+        ('&#x1F534; &#x26AA; &#x26AA;','einfach'),
+        ('&#x1F534; &#x1F534; &#x26AA;','mittel'),
+        ('&#x1F534; &#x1F534; &#x1F534;','schwer')
     ]
+
     difficulty = models.CharField(
-        max_length=10,
+        max_length=40,
         choices=difficulty_choices,
         default='e'
     )

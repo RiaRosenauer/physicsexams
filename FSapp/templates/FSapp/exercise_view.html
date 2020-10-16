@@ -36,10 +36,11 @@ div.container {
 
 <br>
 
-<div class='btn btn-primary'>{{ exercise.professor }}</div>
+<div class='btn btn-primary'>{{ professor }}</div>
 <div class='btn btn-success'>{{ exercise.year }}</div>
 <div class='btn btn-danger'>{{ exercise.course }}</div>
-<div class='btn btn-warning'>{{ exercise.difficulty }}</div>
+
+<div class='btn btn-light'>{{ exercise.difficulty | safe}}</div>
 
 <br>
 <br>

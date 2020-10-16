@@ -42,10 +42,24 @@ def set_of_exercises(request):
 
     return render(request, 'FSapp/set_of_exercises.html', context=context)
 
+@login_required
 def favourites(request):
-    return render(request, 'FSapp/favourites.html')
+    student = Student.objects.filter(user=request.user)[0]
+    context = {
+        'exercises': student.favourite_exercises.all(),
+        'subjects': Subject.objects.all(),
+        'courses': Course.objects.all(),
+    }
+
+    return render(request, 'FSapp/favourites.html', context=context)
 
 def to_repeat(request):
+    student = Student.objects.filter(user=request.user)[0]
+    context = {
+        'exercises': student.failed_exercises.all(),
+        'subjects': Subject.objects.all(),
+        'courses': Course.objects.all(),
+    }
     return render(request, 'FSapp/to_repeat.html')
 
 @login_required
@@ -76,10 +90,6 @@ def favourite_ajax(request):
     return JsonResponse({})
 
 
-
-
-
-
 @login_required
 def exercise_view(request,pk):
     exercise = Exercise.objects.filter(pk=pk)[0]
@@ -105,9 +115,9 @@ def exercise_view(request,pk):
     'exercise': exercise,
     'solved': solved,
     'already_done': already_done,
-    'favourite_exercise': favourite
+    'favourite_exercise': favourite,
+    'professor': exercise.exam.all()[0].professor
     }
-
 
     return render(request, 'FSapp/exercise_view.html',context)
 

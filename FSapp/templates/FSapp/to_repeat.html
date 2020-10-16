@@ -1,12 +1,200 @@
 {% extends 'base.html' %}
 {% block content %}
-{% if user.is_authenticated %}
-<h2><a href="">This is to repeat</a></h2>
-{% else %}
-<h2><a href="">Sorry, but you need to be loged in!</a></h2>
-{% endif %}
+<h2><a href="">Sollte ich nochmal machen</a></h2>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<style>
+    table {
+      
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    .popover{
+        max-width: 75%; /* Max Width of the popover (depending on the container!) */
+    }
+    </style>
 
 
+    </head>
+    <body>
+
+     
+    <p>Suche</p>
+    <input type='text' id='search'>
+
+    <p>Filtern</p>
+   
+
+    <br>
+
+  
+    <label for='filter_course'>Kurs</label>
+  <select id='filter_course' class="" style="width:auto;">
+    <option value=''>--egal--</option>
+    {% for course in courses %}
+    <option>{{ course }}</option>
+   {% endfor %}
+  </select>
+
+  <label for='filter_type'>Klausurtyp</label>
+  <select id='filter_type' class="" style="width:auto;">
+    <option value=''>--egal--</option>
+    <option>Probeklausur</option>
+    <option>Klausur </option> 
+    <option>Wiederholungsklausur </option> 
+  </select>
+
+  <label for='filter_year'>Jahr</label>
+  <select id='filter_year' class="" style="width:auto;">
+    <option value=''>--egal--</option>
+    <option>Default select dsfdfsdfsdfsdfsdfsdfsdfsdfsdfsdf</option>
+    <option>Default </option> 
+  </select> 
+
+  <label for='filter_professor'>Dozent</label>
+  <select id='filter_professor' class="" style="width:auto;">
+    <option value=''>--egal--</option>
+    <option>Default select</option>
+    <option>Default </option> 
+  </select> 
+
+  <label for='filter_subjects'>Thema</label>
+  <select id='filter_subjects' class="" style="width:auto;" multiple>
+    {% for subject in subjects %}
+    <option>{{ subject }}</option>
+    {% endfor %}
+  </select> 
+
+  <label for='filter_difficulty'>Schwierigkeit</label>
+  <select id='filter_difficulty' class="" style="width:auto;">
+    <option value=''>--egal--</option>
+    <option>Einfach </option> 
+    <option>Mittel </option>
+    <option>Schwer </option>
+  </select> 
+
+  <label for='filter_trial'>Bearbeitungsstatus</label>
+  <select id='filter_trial' class="" style="width:auto;">
+    <option value=''>--egal--</option>
+    <option>Nicht Geschafft</option> 
+    <option>Geschafft</option>
+  </select> 
+
+
+  <a href="#" data-toggle="tooltip" title="Title Here">Hyperlink Text</a>
+  <div class='tooltip'>
+    sdfsfsd
+  </div>
+    <p>Sortieren</p>sdfsdfsdf
+
+
+    <button class='btn btn-primary' id='submit'>Submit</button>
+    <br><br>
+    <table id='query_result'>
+      <tr>
+        <th>Aufgabe</th>
+        <th>Jahr</th>
+        <th>Fach</th>
+        <th>Professor</th>
+        
+        <th>Level</th>
+        <th>Bearbeitungsstatus</th>
+      </tr>
+      
+      {% for ex in exercises %}
+      <tr>
+        
+        <td><a href='{% url "exercise_view" ex.pk %}' data-html='true' data-toggle="popover" title="{{ ex.name }}" 
+          data-content='{{ ex.question }} '
+            id="popoverOption" class="btn" rel="popover"
+            data-placement="right" data-original-title="{{ ex.name }}">{{ ex.name }}</a></td>
+        <td>{{ ex.year }}</td>
+        <td>{{ ex.course }}</td>
+        <td>{{ ex.professor }}</td>
+        <td>{{ ex.difficulty | safe}}</td>
+        <td>{{ ex.exam }}</td>
+
+      </tr>
+     {% endfor %}
+    
+    </table>
+    
+  
+
+
+      
+      
+      
+<script>
+  $('.btn').popover({ trigger: "hover" , html:true, sanitize:false });
+
+  $(document).ready(function() {
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+});
+
+  $('#submit').click(function(){
+    console.log($('#search').val());
+    console.log($('#query_result').html());
+    
+    $.ajax({
+      url:'exerciseSet',
+      data: {
+        'search':$('#search').val(),
+
+        'filter_course':$('#filter_course').val(),
+        'filter_type':$('#filter_type').val(),
+        'filter_year':$('#filter_year').val(),
+        'filter_professor':$('#filter_professor').val(),
+        'filter_subjects':$('#filter_subjects').val(),
+      },
+      dataType:'json',
+      success: function(data){
+        console.log(data);
+        $('#query_result').html(data);
+        $('.btn').popover({ trigger: "hover" });
+
+      }
+    })
+  })
+
+  $('#filter_type').click(function(){
+    console.log($(this).val())
+  })
+</script>
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-------- 
 <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
 <a id="popoverOption" class="btn" href="#" data-content="Popup with option trigger" rel="popover"
  data-placement="bottom" data-original-title="Title">Popup with option trigger</a>
@@ -16,11 +204,12 @@
     $(document).ready(function(){
   $('[data-toggle="popover"]').popover(); 
 });
-</script>
+
+
+</script> ---->
 
 
 
 
 
 
-{% endblock %}

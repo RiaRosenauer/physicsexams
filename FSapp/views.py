@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
-from FSapp.models import Exam, Exercise, Student, Professor
+from FSapp.models import Exam, Exercise, Student, Professor, Subject, Course 
 from django.http import JsonResponse 
 from django.template.loader import render_to_string
 def home(request):
@@ -9,15 +9,30 @@ def home(request):
 
 def set_of_exercises(request): 
     search = request.GET.get('search') if request.GET.get('search') != None else ''
-    print(search)
     
+    #To DO 
+    data = request.GET
+
+    course = data.get('filter_course') if data.get('filter_course') != None else ''
+    exam_type = data.get('filter_exam_type') if data.get('filter_exam_type') != None else '' 
+    year = data.get('filter_year') if data.get('filter_year') != None else '' 
+    subjects = data.get('filter_subjects') if data.get('filter_subjects') != None else '' 
+
+    print(course, exam_type, year, subjects)
     context ={
         'exercises': Exercise.objects.filter(name__icontains=search)
     }
+
     if request.is_ajax():
         html = render_to_string('FSapp/exercise_query.html', context=context)
-
         return JsonResponse(html, safe=False) 
+
+    context = {
+        'exercises': Exercise.objects.all(),
+        'subjects': Subject.objects.all(),
+        'courses': Course.objects.all(),
+
+    }
 
     return render(request, 'FSapp/set_of_exercises.html', context=context)
 

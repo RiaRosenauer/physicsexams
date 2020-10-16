@@ -11,7 +11,10 @@
       
     {% for ex in exercises %}
     <tr>
-        <td><a href='{% url "exercise_view" ex.pk %}'>{{ ex.name }}</a></td>
+        <td><a href='{% url "exercise_view" ex.pk %}' data-toggle="popover" title="{{ ex.name }}" 
+            data-content=" {{ ex.question }} "
+              id="popoverOption" class="btn" href="#" data-content="Popup with option trigger" rel="popover"
+              data-placement="bottom" data-original-title="{{ ex.name }}">{{ ex.name }}</a></td>
         <td>{{ ex.year }}</td>
         <td>{{ ex.course }}</td>
         <td>{{ ex.professor }}</td>
@@ -21,3 +24,14 @@
     </tr>
     {% endfor %}
 
+
+
+    "<latex-js baseURL='https://cdn.jsdelivr.net/npm/latex.js/dist/'>
+        \documentclass{article}
+        \usepackage[utf8]{inputenc}
+        \usepackage{braket}
+        \usepackage{amsmath}
+        \usepackage{amssymb}
+
+        \begin{document} {{ ex.question }} \end{document}
+      </latex-js>"

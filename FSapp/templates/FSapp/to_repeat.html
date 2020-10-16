@@ -6,4 +6,21 @@
 <h2><a href="">Sorry, but you need to be loged in!</a></h2>
 {% endif %}
 
+
+<a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
+<a id="popoverOption" class="btn" href="#" data-content="Popup with option trigger" rel="popover"
+ data-placement="bottom" data-original-title="Title">Popup with option trigger</a>
+<script>
+    $('.btn').popover({ trigger: "hover" });
+
+    $(document).ready(function(){
+  $('[data-toggle="popover"]').popover(); 
+});
+</script>
+
+
+
+
+
+
 {% endblock %}

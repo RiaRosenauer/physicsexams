@@ -17,7 +17,8 @@
       <a class="navbar-brand" href="#">ExPhys exercises</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="{% url 'set_of_exercises' %}">set of exercises</a></li>
+      <li><a href="{% url 'set_of_exercises_a'  %}">Aufgabensammlung</a></li>
+      <li><a href="{% url 'set_of_exercises_k'%}">Klausuren</a></li> 
       <li><a href="{% url 'favourites' %}">My favourites</a></li>
       <li><a href="{% url 'to_repeat' %}">exercises to repeat</a></li>
     </ul>
@@ -33,10 +34,17 @@
   </div>
 </nav>
   
+
 <div class="container">
   {% block content %}
 {% endblock %}
 </div>
+<script>
+  $('li').click(function(){
+    console.log($(this));
+    $(this).attr('class','active')
+  })
+</script>
 
 </body>
 </html>

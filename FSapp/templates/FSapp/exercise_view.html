@@ -29,7 +29,7 @@ div.container {
 </head>
 
 <body>
-    <a href='{% url "set_of_exercises" %}'>Zurück</a>
+    <a href='{% url "set_of_exercises_a" %}'>Zurück</a>
 <center>
 
 <h1>{{ exercise }}</h1>
@@ -62,12 +62,23 @@ div.container {
     <br>
     <br>
 
-    
+  
 <button class='btn btn-light' id='solution_click'>Lösung</button>
-<div class='btn-group'>
+
+<div class='btn-group btn-group-sm' id="solved_buttons"> 
+{% if already_done%}
+  {% if solved%}
+    <button type='button' class='btn btn-primary active' id='solved'>Geschafft</button>
+    <button type='button' class='btn btn-light' id='not_solved'>Nicht Geschafft</button>
+  {%else%}
     <button type='button' class='btn btn-light' id='solved'>Geschafft</button>
-    <button type='button' class='btn btn-primary active' id='not_solved'><b>Nicht Geschafft</b></button>
-</div>
+    <button type='button' class='btn btn-primary active' id='not_solved'>Nicht Geschafft</button>
+  {%endif%}
+{%else%}
+  <button type='button' class='btn btn-light' id='solved'>Geschafft</button>
+  <button type='button' class='btn btn-light' id='not_solved'>Nicht Geschafft</button>
+{%endif%}
+</div> 
 
 <div id='solution'  class='card' >
    <br><br>
@@ -96,8 +107,36 @@ $('#solution_click').click(function(){
     console.log('sdfsdf');
     $('#solution').toggle();
 
-})
+});
 
+  $('#solved').click(function(){
+    $(this).attr('class', 'btn btn-primary active');
+    $('#not_solved').attr('class', 'btn btn-light');
+
+
+    $.ajax({
+      url:'currentExercise_ajax',
+      data: {
+        'solved': true,
+        'exercise': '{{exercise.pk}}',
+      },
+      dataType:'json',
+    });
+  });
+
+  $('#not_solved').click(function(){
+    $(this).attr('class', 'btn btn-primary active');
+    $('#solved').attr('class', 'btn btn-light');
+
+    $.ajax({
+      url:'currentExercise_ajax',
+      data: {
+        'solved': false,
+        'exercise': '{{exercise.pk}}',
+      },
+      dataType:'json',
+    });
+  });
 
 </script>
 

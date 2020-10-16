@@ -12,9 +12,9 @@
     {% for ex in exercises %}
     <tr>
         <td><a href='{% url "exercise_view" ex.pk %}' data-toggle="popover" title="{{ ex.name }}" 
-            data-content=" {{ ex.question }} "
+            data-content=" {{ ex.preview }} "
               id="popoverOption" class="btn" href="#" data-content="Popup with option trigger" rel="popover"
-              data-placement="bottom" data-original-title="{{ ex.name }}">{{ ex.name }}</a></td>
+              data-placement="right" data-original-title="{{ ex.name }}">{{ ex.name }}</a></td>
         <td>{{ ex.year }}</td>
         <td>{{ ex.course }}</td>
         <td>{{ ex.professor }}</td>

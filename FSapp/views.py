@@ -32,8 +32,9 @@ def set_of_exercises(request):
         html = render_to_string('FSapp/exercise_query.html', context=context)
         return JsonResponse(html, safe=False) 
 
+    mode = 'Aufgabensammlung' if request.get_full_path()=='/exerciseSet/Aufgabensammlung' else 'Klausur'
     context = {
-        
+        'mode':mode,
         'exercises': Exercise.objects.all(),
         'subjects': Subject.objects.all(),
         'courses': Course.objects.all(),
@@ -50,6 +51,7 @@ def favourites(request):
         'subjects': Subject.objects.all(),
         'courses': Course.objects.all(),
     }
+    print(student.favourite_exercises.all(), context['courses'],Course.objects.all())
 
     return render(request, 'FSapp/favourites.html', context=context)
 

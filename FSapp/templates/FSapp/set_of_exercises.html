@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2><a href="">Repetitorium der Physik</a></h2>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
     table {
       border-collapse: collapse;
@@ -26,7 +29,7 @@
 
     </head>
     <body>
-      <h2>{{ request.url }}</h2>
+      <h2>{{ mode }}</h2>
 
      
     
@@ -111,7 +114,7 @@
         <th>Level</th>
         <th>Bearbeitungsstatus</th>
       </tr>
-      
+      <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
       {% for ex in exercises %}
       <tr>
         
@@ -137,11 +140,13 @@
       
       
 <script>
+  $(document).ready(function(){
+  $('[data-toggle="popover"]').popover();   
+});
+
   $('.btn').popover({ trigger: "hover" , html:true, sanitize:false });
 
-  $(document).ready(function() {
-    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-});
+  
 
   $('#submit').click(function(){
     console.log($('#search').val());

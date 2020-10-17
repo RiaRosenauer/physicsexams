@@ -66,6 +66,8 @@ div.container {
   
 <button class='btn btn-light' id='solution_click'>Lösung</button>
 
+
+{% if user.is_authenticated %}
 {% if favourite_exercise%}
 <button class='btn btn-primary active' id='favourite'>&#x2605;</button>
 {%else%}
@@ -86,6 +88,7 @@ div.container {
   <button type='button' class='btn btn-light' id='not_solved'>Wiederholen</button>
 {%endif%}
 </div> 
+{%endif%}
 
 
 <div id='solution'  class='card' >

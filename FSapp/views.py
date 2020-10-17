@@ -115,15 +115,17 @@ def exercise_view_ajax(request):
     solved = request.GET.get('solved')
     exercise = request.GET.get('exercise')
 
-    student = Student.objects.filter(user=request.user)[0]
+    if request.user.is_authenticated:
 
-    if solved == 'true':
-        student.solved_exercises.add(exercise)
-        student.failed_exercises.remove(exercise)
-    else:
-        student.solved_exercises.remove(exercise)
-        student.failed_exercises.add(exercise)
+        student = Student.objects.filter(user=request.user)[0]
+        if solved == 'true':
+            student.solved_exercises.add(exercise)
+            student.failed_exercises.remove(exercise)
+        else:
+            student.solved_exercises.remove(exercise)
+            student.failed_exercises.add(exercise)
     return JsonResponse({})
+    
 
 
 @login_required
@@ -138,26 +140,31 @@ def favourite_ajax(request):
     return JsonResponse({})
 
 
-@login_required
 def exercise_view(request,pk):
     exercise = Exercise.objects.filter(pk=pk)[0]
 
-    student = Student.objects.filter(user=request.user)[0]
-    if exercise in student.solved_exercises.all():
-        solved = True
-        already_done = True
-    else:
-        if exercise in student.failed_exercises.all():
+    if request.user.is_authenticated:
+        authen = True
+        student = Student.objects.filter(user=request.user)[0]
+        if exercise in student.solved_exercises.all():
+            solved = True
             already_done = True
-            solved = False
         else:
-            solved = False
-            already_done = False
-    if exercise in student.favourite_exercises.all():
-        print(student.favourite_exercises.all())
-        favourite = True
+            if exercise in student.failed_exercises.all():
+                already_done = True
+                solved = False
+            else:
+                solved = False
+                already_done = False
+        if exercise in student.favourite_exercises.all():
+            print(student.favourite_exercises.all())
+            favourite = True
+        else:
+            favourite = False
     else:
         favourite = False
+        already_done = False
+        solved = False
 
     context={
     'exercise': exercise,

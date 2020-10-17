@@ -36,16 +36,18 @@
         </ul>
 
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item" id="Sign up">
-            <a class="nav-link" href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
-          </li>
-          
           {% if user.is_authenticated %}
-          <li class="nav-item" id="Log in">
+          <li class="nav-item" id="delete_account">
+            <a class="nav-link" href="#"><span class="glyphicon glyphicon-log-in"></span>Account löschen</a>
+          </li>
+          <li class="nav-item" id="Log_in">
             <a class="nav-link" href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
           </li>
           {% else %}
-          <li class="nav-item" id="log out">
+          <li class="nav-item" id="Sign_up">
+            <a class="nav-link" href="{% url 'signup' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+          </li>
+          <li class="nav-item" id="log_out">
             <a class="nav-link" href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
           </li>
           {% endif %}

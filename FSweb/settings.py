@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'FSapp',
-    'smart_selects'
+    'smart_selects',
+    'accounts',
 ]
 
 MIDDLEWARE = [

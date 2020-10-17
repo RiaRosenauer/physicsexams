@@ -1,5 +1,5 @@
 {% for course in courses%}
-<h2 style="color:#D3D3D3">{{course.name}}</h2>
+<h2 class="my-3" style="color:#D3D3D3">{{course.name}}</h2>
   {% for subject in subjects%}
   {% if subject in course.subject_set.all%}
   <h4 style="color:#D3D3D3">{{subject.name}}</h4>

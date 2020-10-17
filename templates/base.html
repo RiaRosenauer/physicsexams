@@ -21,31 +21,31 @@
     
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
+          <li class="nav-item" id="Aufgabensammlung">
             <a class="nav-link" href="{% url 'set_of_exercises_a'  %}">Aufgabensammlung <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id='Klausuren'>
             <a class="nav-link" href="{% url 'set_of_exercises_k'%}">Klausuren</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="meine_Favouriten">
             <a class="nav-link" href="{% url 'favourites' %}">Meine Favouriten</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" id="zu_Wiederholen">
             <a class="nav-link" href="{% url 'to_repeat' %}">Zu Wiederholen</a>
           </li>
         </ul>
 
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+          <li class="nav-item" id="Sign up">
             <a class="nav-link" href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
           </li>
           
           {% if user.is_authenticated %}
-          <li class="nav-item">
+          <li class="nav-item" id="Log in">
             <a class="nav-link" href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
           </li>
           {% else %}
-          <li class="nav-item">
+          <li class="nav-item" id="log out">
             <a class="nav-link" href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
           </li>
           {% endif %}
@@ -61,12 +61,25 @@
   
 
   <script>
-    $('li').click(function(){
-      console.log($(this));
-      $(this).attr('class','nav-item active')
-      console.log('click');
-    console.log($(this));
-    })
+
+$(document).ready(function () {
+
+  $('li').click(function(){
+        $(this).attr('class','nav-item active')
+        var id = $(this).attr("id");
+        localStorage.setItem("selectedolditem", id);
+  ;})
+
+  var selectedolditem = localStorage.getItem('selectedolditem');
+
+  if (selectedolditem != null) {
+      $('#' + selectedolditem).siblings().find(".active").removeClass("active");
+      $('#' + selectedolditem).addClass("active");
+  }
+
+});
   </script>
+
+  
 </body>
 </html>

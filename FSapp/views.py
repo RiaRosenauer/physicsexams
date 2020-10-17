@@ -45,7 +45,28 @@ def set_of_exercises(request):
 
 @login_required
 def favourites(request):
+    print('')
+    print('')
+    print('')
+    print('')
+    print('')
+    print('')
+    print('')
+    print('')
+    print('')
+    print("still workgin")
+    print(Student.objects.all())
     student = Student.objects.filter(user=request.user)[0]
+    print('')
+    print('')
+    print('')
+    print('')
+    print('')
+    print('')
+    print('')
+    print('')
+    print('')
+    print(student)
     context = {
         'exercises': student.favourite_exercises.all(),
         'subjects': Subject.objects.all(),

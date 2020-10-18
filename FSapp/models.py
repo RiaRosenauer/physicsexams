@@ -100,4 +100,4 @@ class Student(models.Model):
     favourite_exercises = models.ManyToManyField(Exercise,null=True, blank=True, related_name='student_favourite')
 
     def __str__(self):
-        return self.user
+        return self.user.username

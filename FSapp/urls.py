@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin', admin.site.urls),
     path('exerciseSet/Aufgabensammlung', views.set_of_exercises, name='set_of_exercises_a'),
     path('exerciseSet/Klausur', views.set_of_exercises, name='set_of_exercises_k'),
+    path('exerciseSet/Klausur/<int:pk>', views.exam_view, name='exam_view'),
     path('favourites', views.favourites, name='favourites'),
     path('toRepeat', views.to_repeat, name='to_repeat'),
     path('toRepeat_ajax', views.to_repeat_ajax, name='to_repeat_ajax'),

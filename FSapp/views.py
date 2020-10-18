@@ -14,7 +14,8 @@ def home(request):
 
 def set_of_exercises(request): 
     search = request.GET.get('search') if request.GET.get('search') != None else ''
-    
+    student = Student.objects.filter(user=request.user)[0]
+    print(request.user.student)
     #To DO 
     data = request.GET
 
@@ -33,8 +34,15 @@ def set_of_exercises(request):
         return JsonResponse(html, safe=False) 
 
     mode = 'Aufgabensammlung' if request.get_full_path()=='/exerciseSet/Aufgabensammlung' else 'Klausur'
+    
+    exams_data = [(exam,int(100*len(student.solved_exercises.all() & exam.exercise_set.all())/len(exam.exercise_set.all()))) for exam in Exam.objects.all()]
+
+        #lemma = exercises & student.solved_exercises
+        #print(len(lemma))
+
     context = {
         'mode':mode,
+        'exams': exams_data,
         'exercises': Exercise.objects.all(),
         'subjects': Subject.objects.all(),
         'courses': Course.objects.all(),
@@ -171,10 +179,19 @@ def exercise_view(request,pk):
     'solved': solved,
     'already_done': already_done,
     'favourite_exercise': favourite,
-    'professor': exercise.exam.all()[0].professor
+    'professor': exercise.exam.all()
     }
 
     return render(request, 'FSapp/exercise_view.html',context)
 
+def exam_view(request, pk):
+    exam = Exam.objects.filter(pk=pk)[0]
+
+    context={
+        'exam':exam,
+        'exercises':exam.exercise_set.all(),
+    }
+
+    return render(request, 'FSapp/exam_view.html', context)
 
 # Create your views here.

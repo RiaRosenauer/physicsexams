@@ -36,7 +36,7 @@ div.container {
 
 <br>
 
-<div class='btn btn-primary'>{{ professor }}</div>
+<div class='btn btn-primary'>{% for exam in exams %}{{ exam.professor }}{% endfor %}</div>
 <div class='btn btn-success'>{{ exercise.year }}</div>
 <div class='btn btn-danger'>{{ exercise.course }}</div>
 
@@ -116,7 +116,7 @@ $('#solution').hide();
 
 $('#solution_click').click(function(){
     console.log('sdfsdf');
-    $('#solution').toggle();
+    $('#solution').slideToggle();
 
 });
 

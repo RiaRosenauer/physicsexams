@@ -41,7 +41,7 @@ def set_of_exercises(request):
 
         #lemma = exercises & student.solved_exercises
         #print(len(lemma))
-
+    print(exams_data)
     context = {
         'mode':mode,
         'exams': exams_data,
@@ -164,6 +164,7 @@ def favourite_ajax(request):
     exercise = request.GET.get('exercise')
     favourite = request.GET.get('favourite')
     student = Student.objects.filter(user=request.user)[0]
+    print(request)
     if favourite == 'true':
         student.favourite_exercises.add(exercise)
     else:
@@ -202,7 +203,7 @@ def exercise_view(request,pk):
     'solved': solved,
     'already_done': already_done,
     'favourite_exercise': favourite,
-    'professor': exercise.exam.all()
+    'exams': exercise.exam.all()
     }
 
     return render(request, 'FSapp/exercise_view.html',context)
@@ -214,7 +215,7 @@ def exam_view(request, pk):
         'exam':exam,
         'exercises':exam.exercise_set.all(),
     }
-
+    print()
     return render(request, 'FSapp/exam_view.html', context)
 
 # Create your views here.

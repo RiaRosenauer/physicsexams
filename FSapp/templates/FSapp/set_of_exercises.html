@@ -154,7 +154,7 @@
    
     {% for exam in exams %}
     <tr class='trSpecial' >
-      <td class='completed' value='{{exam.1}}' width='5%'>{{ exam.1 }}%</td>
+      <td class='completed' id='completed' value='{{ exam.1 }}' width='5%'>{{ exam.1 }}%</td>
       <td><a href='{% url "exam_view" exam.0.pk %}'><u> {{ exam.0 }}</u></a></td>
     </tr>
     
@@ -192,8 +192,21 @@
 <script>
 //Percentage interpolation for completedness
 $('.completed').attr('style', function(){
-  console.log($(this).val());
-  return 'color:#000000'
+  console.log('helo');
+  
+  var percent = parseInt($(this).html().slice(0,-1))/100;
+  var top = Math.round(255*(1-percent)).toString(16);
+  var mid = Math.round(255*percent).toString(16);
+  
+  if(Math.round(255*(1-percent)) < 16){
+    top = '0'+top;
+  }
+  if(Math.round(255*percent) < 16){
+    mid = '0'+mid;
+  }
+  console.log(top+mid+'00')
+  
+  return 'color:#'+top+mid+'00'
 });
 //$('.completed').attr('style','color:#ffffff')
 

@@ -12,7 +12,9 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     return render(request, 'FSapp/home.html')
 
+
 def set_of_exercises(request): 
+    print("we are here")
     search = request.GET.get('search') if request.GET.get('search') != None else ''
     student = Student.objects.filter(user=request.user)[0]
     print(request.user.student)

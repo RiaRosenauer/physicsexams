@@ -12,24 +12,32 @@
     }
     
     td, th {
-      border: 1px solid #dddddd;
+      border: 0px solid #dddddd;
       text-align: left;
-      padding: 8px;
+      padding: 10px;
     }
-    
-    tr:nth-child(even) {
-      background-color: #dddddd;
+
+    .trSpecial:hover {
+      box-shadow:  0px 0px 12px 1px rgba(0,0,0,0.2); 
+    }
+
+    .selectTable:hover{
+      background-color: rgb(207, 207, 207);
     }
 
     .popover{
         max-width: 75%; /* Max Width of the popover (depending on the container!) */
+    }
+
+    .hide{
+      display:none;
     }
     </style>
 
 
     </head>
     <body>
-      <h2>{{ modeg }}</h2>
+      <h2>{{ mode }}</h2>
 
      
     
@@ -101,7 +109,9 @@
 
     <button class='btn btn-primary' id='submit'>Submit</button>
     <br><br>
-    <table id='query_result'>
+
+    {% if mode == 'Aufgabensammlung' %}
+    <table id='query_result' >
       <tr>
         <th>Aufgabe</th>
         <th>Jahr</th>
@@ -113,15 +123,19 @@
       </tr>
      
       {% for ex in exercises %}
-      <tr>
+      <tr class='trSpecial'>
         
         <td><a href='{% url "exercise_view" ex.pk %}' data-html='true' data-toggle="popover" title="{{ ex.name }}" 
           data-content='{{ ex.preview }} '
             id="popoverOption" class="btn" rel="popover"
-            data-placement="right" data-original-title="{{ ex.name }}">{{ ex.name }}</a></td>
+            data-placement="right" data-original-title="{{ ex.name }}"><u>{{ ex.name }}</u></a></td>
         <td>{{ ex.year }}</td>
         <td>{{ ex.course }}</td>
-        <td>{{ ex.professor }}</td>
+        <td>
+          {% for ex in ex.exam.all %}
+        {{ ex.professor }}
+        {% endfor %}
+        </td>
         <td>{{ ex.difficulty | safe}}</td>
         <td>{{ ex.exam }}</td>
 
@@ -130,22 +144,74 @@
     
     </table>
     
+  {% else %}
+  <table id='query_result' style='box-shadow:0px 0px 12px 1px rgba(0,0,0,0.2); padding:4px;' >
+    <tr>
+      <th></th>
+      <th>Klausur</th>
+     
+    </tr>
+   
+    {% for exam in exams %}
+    <tr class='trSpecial' >
+      <td class='completed' value='{{exam.1}}' width='5%'>{{ exam.1 }}%</td>
+      <td><a href='{% url "exam_view" exam.0.pk %}'><u> {{ exam.0 }}</u></a></td>
+    </tr>
+    
+    <tr value='asdasdas' >
+      <td ></td>
+      <td >
+        <div id='{{exam.0.pk}}' class='slide hide'>
+          {% for exercise in exam.0.exercise_set.all %}
+          <dl>
+           {% if exercise in request.user.student.solved_exercises.all %} 
+           &#x2705 {% endif %}
+           {{ exercise }}
+          </dl>
+          
+          {% endfor %}
+          
+        </div>
+      </td>
+    </tr>
+
+    
+      
+    
   
+   {% endfor %}
+  
+  </table>
 
+  {% endif %}
 
+  
       
       
       
 <script>
-  $(document).ready(function(){
+//Percentage interpolation for completedness
+$('.completed').attr('style', function(){
+  console.log($(this).val());
+  return 'color:#000000'
+});
+//$('.completed').attr('style','color:#ffffff')
+
+//Slide Down of Exercises in Exam within table
+$('tr').click(function(){
+  $(this).next('tr').find('.slide').slideToggle();
+})
+
+//Preview of Exercise
+$(document).ready(function(){
   $('[data-toggle="popover"]').popover();   
 });
 
-  $('.btn').popover({ trigger: "hover" , html:true, sanitize:false });
+$('.btn').popover({ trigger: "hover" , html:true, sanitize:false });
 
-  
-
-  $('#submit').click(function(){
+//Search, Filter and Sort functionality of Exercises
+$('#submit').click( function() {
+    h('Das geht nicht');
     console.log($('#search').val());
     console.log($('#query_result').html());
     
@@ -169,6 +235,8 @@
       }
     })
   })
+
+
 
   $('#filter_type').click(function(){
     console.log($(this).val())

@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<script type="module">
+    import { LaTeXJSComponent } from "https://cdn.jsdelivr.net/npm/latex.js/dist/latex.mjs"
+    customElements.define("latex-js", LaTeXJSComponent)
+  </script>
+<title>LaTeX.js Web Component Test</title>
+
+<style>
+div.card {
+  
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+}
+
+div.header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  font-size: 40px;
+}
+
+div.container {
+  padding: 10px;
+}
+</style>
+</head>
+
+<body>
+    <a href='{% url "set_of_exercises_a" %}'>Zurück</a>
+<center>
+
+<h1>{{ exercise }}</h1>
+
+<br>
+
+<div class='btn btn-primary'>{{ professor }}</div>
+<div class='btn btn-success'>{{ exercise.year }}</div>
+<div class='btn btn-danger'>{{ exercise.course }}</div>
+
+<div class='btn btn-light'>{{ exercise.difficulty | safe}}</div>
+
+<br>
+<br>
+</center>
+
+    <latex-js baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/">
+    \documentclass{article}
+    \usepackage[utf8]{inputenc}
+    \usepackage{braket}
+    \usepackage{amsmath}
+    \usepackage{amssymb}
+    \begin{document}
+
+    {{ exercise }}
+    {{ exercise.question }}
+
+    \end{document}
+    </latex-js>   
+
+    <br>
+    <br>
+
+  
+<button class='btn btn-light' id='solution_click'>Lösung</button>
+
+
+{% if user.is_authenticated %}
+{% if favourite_exercise%}
+<button class='btn btn-primary active' id='favourite'>&#x2605;</button>
+{%else%}
+<button class='btn btn-light' id='favourite'>&#x2605;</button>
+{%endif%}
+
+<div class='btn-group btn-group-sm' id="solved_buttons"> 
+{% if already_done%}
+  {% if solved%}
+    <button type='button' class='btn btn-primary active' id='solved'>Geschafft</button>
+    <button type='button' class='btn btn-light' id='not_solved'>Wiederholen</button>
+  {%else%}
+    <button type='button' class='btn btn-light' id='solved'>Geschafft</button>
+    <button type='button' class='btn btn-primary active' id='not_solved'>Wiederholen</button>
+  {%endif%}
+{%else%}
+  <button type='button' class='btn btn-light' id='solved'>Geschafft</button>
+  <button type='button' class='btn btn-light' id='not_solved'>Wiederholen</button>
+{%endif%}
+</div> 
+{%endif%}
+
+
+<div id='solution'  class='card' >
+   <br><br>
+    <latex-js baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/">
+        \documentclass{article}
+        \usepackage[utf8]{inputenc}
+        \usepackage{braket}
+        \usepackage{amsmath}
+        \usepackage{amssymb}
+
+        \begin{document}
+
+        {{ exercise.answer }}
+
+        \end{document}
+        </latex-js>   
+    <br><br>
+</div>
+
+<br><br><br><br>
+
+<script>
+$('#solution').hide();
+
+$('#solution_click').click(function(){
+    console.log('sdfsdf');
+    $('#solution').toggle();
+
+});
+
+
+
+$('#favourite').click(function(){
+    if ($(this).attr('class') == 'btn btn-primary active'){
+      $(this).attr('class', 'btn btn-light')
+      favourite = false
+    } else{
+      $(this).attr('class', 'btn btn-primary active')
+      favourite = true
+    }
+    $.ajax({
+      url:'favourite_ajax',
+      data: {
+        'favourite': favourite,
+        'exercise': '{{exercise.pk}}',
+      },
+      dataType:'json',
+    });
+
+  });
+
+  $('#solved').click(function(){
+    $(this).attr('class', 'btn btn-primary active');
+    $('#not_solved').attr('class', 'btn btn-light');
+
+
+    $.ajax({
+      url:'currentExercise_ajax',
+      data: {
+        'solved': true,
+        'exercise': '{{exercise.pk}}',
+      },
+      dataType:'json',
+    });
+  });
+
+  $('#not_solved').click(function(){
+    $(this).attr('class', 'btn btn-primary active');
+    $('#solved').attr('class', 'btn btn-light');
+
+    $.ajax({
+      url:'currentExercise_ajax',
+      data: {
+        'solved': false,
+        'exercise': '{{exercise.pk}}',
+      },
+      dataType:'json',
+    });
+  });
+
+</script>
+
+{% endblock %}

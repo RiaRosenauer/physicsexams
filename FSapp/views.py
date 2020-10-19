@@ -14,10 +14,9 @@ def home(request):
 
 
 def set_of_exercises(request): 
-    print("we are here")
     search = request.GET.get('search') if request.GET.get('search') != None else ''
-    student = Student.objects.filter(user=request.user)[0]
-    print(request.user.student)
+
+    student = Student.objects.filter(user=request.user)[0] if request.user.is_authenticated else Student.objects.filter(user=User.objects.filter(username='placeholder')[0])[0]
     #To DO 
     data = request.GET
 
@@ -26,7 +25,6 @@ def set_of_exercises(request):
     year = data.get('filter_year') if data.get('filter_year') != None else '' 
     subjects = data.get('filter_subjects') if data.get('filter_subjects') != None else '' 
 
-    print(course, exam_type, year, subjects)
     context ={
         'exercises': Exercise.objects.filter(name__icontains=search)
     }
@@ -55,40 +53,17 @@ def set_of_exercises(request):
 
 @login_required
 def favourites(request):
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print("still workgin")
-    print(Student.objects.all())
     student = Student.objects.filter(user=request.user)[0]
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print('')
-    print(student)
     context = {
         'exercises': student.favourite_exercises.all(),
         'subjects': Subject.objects.all(),
         'courses': Course.objects.all(),
     }
-    print(student.favourite_exercises.all(), context['courses'],Course.objects.all())
 
     return render(request, 'FSapp/favourites.html', context=context)
 
 @login_required
 def to_repeat_ajax(request):
-    print("here")
     student = Student.objects.filter(user=request.user)[0]
 
     exercises = student.failed_exercises.all()
@@ -119,7 +94,6 @@ def to_repeat_ajax(request):
         'courses': Course.objects.all(),
         'subjects': subjects
         }
-        print(subjects)
         html = render_to_string('FSapp/to_repeat_subject.html', context=context)
     return JsonResponse(html, safe=False) 
 
@@ -189,7 +163,6 @@ def exercise_view(request,pk):
                 solved = False
                 already_done = False
         if exercise in student.favourite_exercises.all():
-            print(student.favourite_exercises.all())
             favourite = True
         else:
             favourite = False

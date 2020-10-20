@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2><a href="">Repetitorium der Physik</a></h2>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -12,7 +12,7 @@
     }
     
     td, th {
-      border: 0px solid #dddddd;
+      border: 1px solid #dddddd;
       text-align: left;
       padding: 10px;
     }
@@ -32,6 +32,24 @@
     .hide{
       display:none;
     }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      padding: 10px;
+      background-color: #f9f9f9;
+      min-width: 300px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    .thick {
+      font-weight: bold;
+    }
+
     </style>
 
 
@@ -42,102 +60,124 @@
      
     
     <p>Suche</p>
-    <input type='text' id='search'>
+    <input type='text' id='search'><br>
 
-    <p>Filtern</p>
-   
-
-    <br>
-
-  
     <label for='filter_course'>Kurs</label>
-  <select id='filter_course' class="" style="width:auto;">
-    <option value=''>--egal--</option>
-    {% for course in courses %}
-    <option>{{ course }}</option>
-   {% endfor %}
-  </select>
+    <select id='filter_course' class="" style="width:auto;">
+      <option value=''>--egal--</option>
+      {% for course in courses %}
+      <option>{{ course }}</option>
+     {% endfor %}
+    </select>
 
-  <label for='filter_type'>Klausurtyp</label>
-  <select id='filter_type' class="" style="width:auto;">
-    <option value=''>--egal--</option>
-    <option>Probeklausur</option>
-    <option>Klausur </option> 
-    <option>Wiederholungsklausur </option> 
-  </select>
+    <label for='filter_subjects'>Thema</label>
+    <select id='filter_subjects' class="" style="width:auto;" multiple>
+      {% for subject in subjects %}
+      <option>{{ subject }}</option>
+      {% endfor %}
+    </select>  
 
-  <label for='filter_year'>Jahr</label>
-  <select id='filter_year' class="" style="width:auto;">
-    <option value=''>--egal--</option>
-    <option>Default select dsfdfsdfsdfsdfsdfsdfsdfsdfsdfsdf</option>
-    <option>Default </option> 
-  </select> 
-
-  <label for='filter_professor'>Dozent</label>
-  <select id='filter_professor' class="" style="width:auto;">
-    <option value=''>--egal--</option>
-    <option>Default select</option>
-    <option>Default </option> 
-  </select> 
-
-  <label for='filter_subjects'>Thema</label>
-  <select id='filter_subjects' class="" style="width:auto;" multiple>
-    {% for subject in subjects %}
-    <option>{{ subject }}</option>
-    {% endfor %}
-  </select> 
-
-  <label for='filter_difficulty'>Schwierigkeit</label>
-  <select id='filter_difficulty' class="" style="width:auto;">
-    <option value=''>--egal--</option>
-    <option>Einfach </option> 
-    <option>Mittel </option>
-    <option>Schwer </option>
-  </select> 
-
-  <label for='filter_trial'>Bearbeitungsstatus</label>
-  <select id='filter_trial' class="" style="width:auto;">
-    <option value=''>--egal--</option>
-    <option>Nicht Geschafft</option> 
-    <option>Geschafft</option>
-  </select> 
+    
+    <div class='dropdown'>
+      <button id='filter' class='btn btn-outline-primary' style='border-radius:0px' >&#9660;   Filter</button>
+      <div style="z-index:9999;width:25%" id='test' class='card dropdown-content'>
+       
+    
+  
+    <label for='filter_type'>Klausurtyp</label>
+    <select id='filter_type' class="" style="width:auto;">
+      <option value=''>--egal--</option>
+      <option>Probeklausur</option>
+      <option>Klausur </option> 
+      <option>Wiederholungsklausur </option> 
+    </select><br>
+  
+    <label for='filter_year'>Jahr</label>
+    <select id='filter_year' class="" style="width:auto;">
+      <option value=''>--egal--</option>
+      <option>2020</option>
+      <option>Default </option> 
+    </select> <br>
+  
+    <label for='filter_professor'>Dozent</label>
+    <select id='filter_professor' class="" style="width:auto;">
+      <option value=''>--egal--</option>
+      <option>Default select</option>
+      <option>Default </option> 
+    </select> <br>
+  
+    
+  
+    <label for='filter_difficulty'>Schwierigkeit</label>
+    <select id='filter_difficulty' class="" style="width:auto;">
+      <option value=''>--egal--</option>
+      <option>Einfach </option> 
+      <option>Mittel </option>
+      <option>Schwer </option>
+    </select> <br>
+  
+    <label for='filter_trial'>Bearbeitungsstatus</label>
+    <select id='filter_trial' class="" style="width:auto;">
+      <option value=''>--egal--</option>
+      <option>Nicht Geschafft</option> 
+      <option>Geschafft</option>
+    </select> 
+      </div>
+    <br>
+    </div>
+    
+  <div class='dropdown'>
+    <button class='btn btn-outline-primary' style='border-radius:0px' id='sort'>&#9660; Sortieren</button>
+    <div class='dropdown-content' style="z-index:9999;width:25%" id='sort_setting'>
+    
+    </div>
+  </div>
 
 
   
-    <p>Sortieren</p>
+  
 
 
-    <button class='btn btn-primary' id='submit'>Submit</button>
+    <button class='btn btn-primary' style='border-radius:0px' id='submit'>Submit</button>
     <br><br>
 
     {% if mode == 'Aufgabensammlung' %}
-    <table id='query_result' >
+    <table id='query_result' style='box-shadow:0px 0px 12px 1px rgba(0,0,0,0.2); padding:4px;' >
       <tr>
+        <th></th>
         <th>Aufgabe</th>
-        <th>Jahr</th>
+        
         <th>Fach</th>
-        <th>Professor</th>
+        <th>Themen</th>
         
         <th>Level</th>
-        <th>Bearbeitungsstatus</th>
+        
       </tr>
      
       {% for ex in exercises %}
       <tr class='trSpecial'>
-        
+        <td> <a> </a>
+          {% if ex in user.student.solved_exercises.all %}
+          <b><h5 style='color:#00ff00;'> &#x2713;</h5></b> 
+          
+          {% else %}
+          <b><h5 style='color:#ff0000'>&#x2717;</h5></b>
+          {% endif %}
+          
+        </td>
         <td><a href='{% url "exercise_view" ex.pk %}' data-html='true' data-toggle="popover" title="{{ ex.name }}" 
-          data-content='{{ ex.preview }} '
+          data-content='{{ ex.preview }}' style='color:#323dd1; '
             id="popoverOption" class="btn" rel="popover"
             data-placement="right" data-original-title="{{ ex.name }}"><u>{{ ex.name }}</u></a></td>
-        <td>{{ ex.year }}</td>
+       
         <td>{{ ex.course }}</td>
         <td>
-          {% for ex in ex.exam.all %}
-        {{ ex.professor }}
-        {% endfor %}
+          {% for subject in ex.subject.all %}
+          {{ subject }};
+          {% endfor %}
         </td>
         <td>{{ ex.difficulty | safe}}</td>
-        <td>{{ ex.exam }}</td>
+        
 
       </tr>
      {% endfor %}
@@ -149,30 +189,37 @@
     <tr>
       <th></th>
       <th>Klausur</th>
-     
+     <th>Jahr</th>
+     <th>Professor</th>
     </tr>
    
     {% for exam in exams %}
     <tr class='trSpecial' >
-      <td class='completed' id='completed' value='{{ exam.1 }}' width='5%'>{{ exam.1 }}%</td>
+      <td class='completed thick' id='completed' value='{{ exam.1 }}' width='5%'>{{ exam.1 }}% </td>
       <td><a href='{% url "exam_view" exam.0.pk %}'><u> {{ exam.0 }}</u></a></td>
+      <td>{{ exam.0.year }}</td>
+      <td>{{ exam.0.professor }}</td>
     </tr>
     
     <tr value='asdasdas' >
       <td ></td>
-      <td >
+      <td colspan='3'>
         <div id='{{exam.0.pk}}' class='slide hide'>
           {% for exercise in exam.0.exercise_set.all %}
           <dl>
            {% if exercise in request.user.student.solved_exercises.all %} 
-           &#x2705 {% endif %}
-           {{ exercise }}
+           <b><a style='color:#00ff00;'>&#x2713;</a></b> 
+           {% else %}
+           <b><a style='color:#ff0000'>&#x2717;</a></b>
+           {% endif %}
+           <a href='{% url "exercise_view" exercise.pk %}'><u><i>{{ exercise }}</i></u><a>        {{ exercise.difficulty | safe}}
           </dl>
           
           {% endfor %}
           
         </div>
       </td>
+      
     </tr>
 
     
@@ -190,21 +237,44 @@
       
       
 <script>
+//filter
+$('#filter').click(function(){
+  if($('#test').is(':hidden')){
+    $('body').attr('style','background:#dddddd')
+  }else{
+    $('body').attr('style','background:#ffffff')}
+  $('#test').slideToggle();
+})
+
+//sorting
+$('#sort').click(function(){
+  if($('#sort_setting').is(':hidden')){
+    $('body').attr('style','background:#dddddd')
+  }else{
+    $('body').attr('style','background:#ffffff')}
+  $('#sort_setting').slideToggle(); 
+})
+
+
 //Percentage interpolation for completedness
 $('.completed').attr('style', function(){
   console.log('helo');
   
   var percent = parseInt($(this).html().slice(0,-1))/100;
-  var top = Math.round(255*(1-percent)).toString(16);
-  var mid = Math.round(255*percent).toString(16);
+  if(percent <= 0.5){
+    top = 'ff';
+    mid = '00';
+  }else{
+    var top = Math.round(510*(1-percent)).toString(16);
+    var mid = Math.round(-255 + 510*percent).toString(16);
   
-  if(Math.round(255*(1-percent)) < 16){
-    top = '0'+top;
+    if(Math.round(127*(1-percent)) < 16){
+      top = '0'+top;
+    }
+    if(Math.round(127 + 127*percent) < 16){
+      mid = '0'+mid;
+    }
   }
-  if(Math.round(255*percent) < 16){
-    mid = '0'+mid;
-  }
-  console.log(top+mid+'00')
   
   return 'color:#'+top+mid+'00'
 });
@@ -224,7 +294,7 @@ $('.btn').popover({ trigger: "hover" , html:true, sanitize:false });
 
 //Search, Filter and Sort functionality of Exercises
 $('#submit').click( function() {
-    h('Das geht nicht');
+    
     console.log($('#search').val());
     console.log($('#query_result').html());
     

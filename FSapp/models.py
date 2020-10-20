@@ -32,6 +32,8 @@ class Exam(models.Model):
         default='20'
     )
 
+    
+
     def __str__(self):
         return self.name
 
@@ -56,12 +58,12 @@ class Exercise(models.Model):
     question = models.TextField()
     answer = models.TextField()
 
-    preview = models.TextField()
+    preview = models.TextField(null=True, blank=True)
     
     difficulty_choices = [
-        (u'&#x1F534; &#x26AA; &#x26AA;','einfach'),
-        (u'&#x1F534; &#x1F534; &#x26AA;','mittel'),
-        (u'&#x1F534; &#x1F534; &#x1F534;','schwer')
+        (u'&#x2B51; &#x2606; &#x2606;','einfach'),
+        (u'&#x2B51; &#x2B51; &#x2606;','mittel'),
+        (u'&#x2B51; &#x2B51; &#x2B51;','schwer')
     ]
 
     difficulty = models.CharField(
@@ -98,6 +100,6 @@ class Student(models.Model):
     failed_exercises = models.ManyToManyField(Exercise,null=True, blank=True, related_name='student_failed')
 
     favourite_exercises = models.ManyToManyField(Exercise,null=True, blank=True, related_name='student_favourite')
-    
+
     def __str__(self):
         return self.user.username

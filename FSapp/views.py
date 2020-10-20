@@ -25,8 +25,11 @@ def set_of_exercises(request):
     year = data.get('filter_year') if data.get('filter_year') != None else '' 
     subjects = data.get('filter_subjects') if data.get('filter_subjects') != None else '' 
 
+    #fiter search and year.
+    exercises = Exercise.objects.filter(name__icontains=search,  year__icontains=year)
+    #filter course 
     context ={
-        'exercises': Exercise.objects.filter(name__icontains=search)
+        'exercises': exercises,
     }
 
     if request.is_ajax():
@@ -48,7 +51,7 @@ def set_of_exercises(request):
         'courses': Course.objects.all(),
 
     }
-
+    print(student.solved_exercises.all())
     return render(request, 'FSapp/set_of_exercises.html', context=context)
 
 @login_required

@@ -10,7 +10,9 @@
       border-collapse: collapse;
       width: 100%;
     }
-    
+    .text{
+      font-family: Georgia, 'Times New Roman', Times, serif;
+    }
     td, th {
       border: 1px solid #dddddd;
       text-align: left;
@@ -51,17 +53,17 @@
     }
 
     </style>
-
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
     </head>
     <body>
-      <h2>{{ mode }}</h2>
-
-     
-    
-    <p>Suche</p>
-    <input type='text' id='search'><br>
-
+      <h1 style='font-family: Snell Roundhand, cursive;'>{{ mode }}</h1>
+    <br>
+    Suche<br><br>
+    <input type='text' id='search' placeholder="z.B. Drehmoment"><br><br>
     <label for='filter_course'>Kurs</label>
     <select id='filter_course' class="" style="width:auto;">
       <option value=''>--egal--</option>
@@ -71,15 +73,15 @@
     </select>
 
     <label for='filter_subjects'>Thema</label>
-    <select id='filter_subjects' class="" style="width:auto;" multiple>
+    <select id='filter_subjects' class="selectpicker" style="width:auto;" data-live-search="true" multiple>
       {% for subject in subjects %}
       <option>{{ subject }}</option>
       {% endfor %}
     </select>  
 
     
-    <div class='dropdown'>
-      <button id='filter' class='btn btn-outline-primary' style='border-radius:0px' >&#9660;   Filter</button>
+    <div class='dropdown' >
+      <button id='filter' class='btn btn-outline-primary' style='border-radius:0px; width:auto;' >&#9660;   Filter</button>
       <div style="z-index:9999;width:25%" id='test' class='card dropdown-content'>
        
     
@@ -237,6 +239,8 @@
       
       
 <script>
+
+//$('select').selectpicker(); 
 //filter
 $('#filter').click(function(){
   if($('#test').is(':hidden')){
@@ -300,9 +304,11 @@ $('#submit').click( function() {
     
     $.ajax({
       url:'Aufgabensammlung',
+      
+   
       data: {
         'search':$('#search').val(),
-
+        
         'filter_course':$('#filter_course').val(),
         'filter_type':$('#filter_type').val(),
         'filter_year':$('#filter_year').val(),

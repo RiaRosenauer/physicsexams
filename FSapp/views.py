@@ -29,10 +29,12 @@ def set_of_exercises(request):
     exercises = Exercise.objects.filter(name__icontains=search,  year__icontains=year)
     #filter course 
     context ={
-        'exercises': exercises,
+        'exercises': Exercise.objects.filter(name__icontains=search),
+        'student':student,
     }
 
     if request.is_ajax():
+        print(context['exercises'], 'jesdfsdf')
         html = render_to_string('FSapp/exercise_query.html', context=context)
         return JsonResponse(html, safe=False) 
 

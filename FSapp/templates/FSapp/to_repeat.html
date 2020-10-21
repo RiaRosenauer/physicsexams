@@ -27,7 +27,7 @@
   {% for ex in e.exercise_set.all%}
   {%if ex.course == course%}
     <div class="col-auto">
-        <div class="card bg-light mb-3">
+        <div class="card bg-light mb-3  my-5">
             <div class="card-header">
                 <a href='{% url "exercise_view" ex.pk %}'>{{ex.name}}</a> 
             </div>

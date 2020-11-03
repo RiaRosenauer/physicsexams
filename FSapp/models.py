@@ -46,14 +46,16 @@ class Subject(models.Model):
 
     def __str__(self):
         return self.name 
-
+    
 
 class Exercise(models.Model):
 
     name = models.CharField(max_length=100)
 
-    question = models.FileField(upload_to='question', blank=True, null=True)
+    question = models.FileField(upload_to="question", blank=True, null=True)
+
     answer = models.FileField(upload_to='solution', blank=True, null=True)
+
 
     preview = models.TextField(null=True, blank=True)
     

@@ -3,9 +3,6 @@ from django.contrib.auth.models import User
 from django_mysql.models import ListCharField 
 from smart_selects.db_fields import ChainedManyToManyField
 
-
-# Create your models here.
-
 class Professor(models.Model):
     name = models.CharField(max_length=30)
 
@@ -55,8 +52,8 @@ class Exercise(models.Model):
 
     name = models.CharField(max_length=100)
 
-    question = models.TextField()
-    answer = models.TextField()
+    question = models.FileField(upload_to='FSapp/media/FSapp', blank=True, null=True)
+    answer = models.FileField(upload_to='FSapp/media/FSapp', blank=True, null=True)
 
     preview = models.TextField(null=True, blank=True)
     
@@ -86,8 +83,6 @@ class Exercise(models.Model):
         chained_field="course",
         chained_model_field="course",
         verbose_name='subject')
-
-    image1 = models.ImageField(upload_to='LatexImages/', blank=True, null=True)
     
     def __str__(self):
         return self.name

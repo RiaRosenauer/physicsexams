@@ -1,6 +1,9 @@
 from django.urls import path
 from django.contrib import admin
 from . import views
+from django.conf import settings
+
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.set_of_exercises, name='home'),
@@ -15,3 +18,5 @@ urlpatterns = [
     path('exerciseSet/currentExercise_ajax',views.exercise_view_ajax, name='exercise_view_ajax'), 
     path('exerciseSet/favourite_ajax', views.favourite_ajax, name='favourite_ajax')
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

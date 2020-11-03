@@ -45,20 +45,7 @@ div.container {
 <br>
 <br>
 </center>
-
-    <latex-js baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/">
-    \documentclass{article}
-    \usepackage[utf8]{inputenc}
-    \usepackage{braket}
-    \usepackage{amsmath}
-    \usepackage{amssymb}
-    \begin{document}
-
-    {{ exercise }}
-    {{ exercise.question }}
-
-    \end{document}
-    </latex-js>   
+<iframe src="{{ MEDIA_URL }}{{ exercise.question.url }}"></iframe>
 
     <br>
     <br>
@@ -93,19 +80,7 @@ div.container {
 
 <div id='solution'  class='card' >
    <br><br>
-    <latex-js baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/">
-        \documentclass{article}
-        \usepackage[utf8]{inputenc}
-        \usepackage{braket}
-        \usepackage{amsmath}
-        \usepackage{amssymb}
-
-        \begin{document}
-
-        {{ exercise.answer }}
-
-        \end{document}
-        </latex-js>   
+   <iframe src="{{ exercise.answer }}"></iframe>
     <br><br>
 </div>
 

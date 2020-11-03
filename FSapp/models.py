@@ -52,8 +52,8 @@ class Exercise(models.Model):
 
     name = models.CharField(max_length=100)
 
-    question = models.FileField(upload_to='FSapp/media/FSapp', blank=True, null=True)
-    answer = models.FileField(upload_to='FSapp/media/FSapp', blank=True, null=True)
+    question = models.FileField(upload_to='question', blank=True, null=True)
+    answer = models.FileField(upload_to='solution', blank=True, null=True)
 
     preview = models.TextField(null=True, blank=True)
     

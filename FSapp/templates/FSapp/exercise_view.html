@@ -44,9 +44,11 @@ div.container {
 
 <br>
 <br>
-</center>
-<iframe src="{{ MEDIA_URL }}{{ exercise.question.url }}"></iframe>
 
+
+<embed scale='noscale' src="{{ MEDIA_URL }}{{ exercise.question }}"  type="application/pdf" style='width:80vw; height:100vh; background:aqua; border-width:0px' >
+
+</center>
     <br>
     <br>
 
@@ -80,7 +82,10 @@ div.container {
 
 <div id='solution'  class='card' >
    <br><br>
-   <iframe src="{{ exercise.answer }}"></iframe>
+   <center>
+      <embed src="{{ MEDIA_URL }}{{ exercise.answer }}" style='width:80vw; height:100vh; background-color:white;' type="application/pdf" align='center'>
+   </center>
+  
     <br><br>
 </div>
 

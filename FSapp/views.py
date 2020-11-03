@@ -52,6 +52,7 @@ def set_of_exercises(request):
         'subjects': Subject.objects.all(),
         'courses': Course.objects.all(),
 
+
     }
     print(student.solved_exercises.all())
     return render(request, 'FSapp/set_of_exercises.html', context=context)
@@ -181,7 +182,8 @@ def exercise_view(request,pk):
     'solved': solved,
     'already_done': already_done,
     'favourite_exercise': favourite,
-    'exams': exercise.exam.all()
+    'exams': exercise.exam.all(),
+    'MEDIA_URL':'/media/'
     }
 
     return render(request, 'FSapp/exercise_view.html',context)

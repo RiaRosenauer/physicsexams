@@ -46,11 +46,9 @@ div.container {
 
 <div class='btn btn-light'>{{ exercise.difficulty | safe}}</div>
 
-<br>
-<br>
 
-<div style='width:80vw'>
-<canvas id="the-canvas"></canvas>
+<div id="canvas_container" style='width:80vw'>
+
 </div>
 </center>
     <br>
@@ -159,7 +157,7 @@ $('#favourite').click(function(){
 // header on that server.
 var url = "{{ MEDIA_URL }}{{ exercise.question }}";
 // Loaded via <script> tag, create shortcut to access PDF.js exports.
-  var pdfjsLib = window['pdfjs-dist/build/pdf'];
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
 
 // The workerSrc property shall be specified.
 pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
@@ -168,9 +166,12 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.w
 var loadingTask = pdfjsLib.getDocument(url);
 loadingTask.promise.then(function(pdf) {
   console.log('PDF loaded');
+  var pdf_pages = pdf.numPages;
   
   // Fetch the first page
-  var pageNumber = 1;
+  //var pageNumber = 1;
+  for(pageNumber=1; pageNumber <= pdf_pages ; pageNumber ++){
+ 
   pdf.getPage(pageNumber).then(function(page) {
     console.log('Page loaded');
     
@@ -178,10 +179,16 @@ loadingTask.promise.then(function(pdf) {
     var viewport = page.getViewport({scale: scale});
 
     // Prepare canvas using PDF page dimensions
-    var canvas = document.getElementById('the-canvas');
-    var context = canvas.getContext('2d');
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
+    var canvas_create = document.createElement("canvas");
+    //canvas_create.setAttribute("width", "1000" );
+    //canvas_create.setAttribute("height", "1000" );
+    canvas_create.setAttribute("style", "border:0px; margin:0px; padding:0px; ")
+   
+    console.log(canvas_create);
+
+    var context = canvas_create.getContext('2d');
+    canvas_create.height = viewport.height;
+    canvas_create.width = viewport.width;
 
     // Render PDF page into canvas context
     var renderContext = {
@@ -192,11 +199,12 @@ loadingTask.promise.then(function(pdf) {
     renderTask.promise.then(function () {
       console.log('Page rendered');
     });
+    document.getElementById("canvas_container").appendChild(canvas_create)
   });
-}, function (reason) {
-  // PDF loading error
-  console.error(reason);
-}); 
+}
+}
+
+); 
 
 </script>
 

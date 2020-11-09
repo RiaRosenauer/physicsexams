@@ -1,5 +1,5 @@
 """
-WSGI config for FSweb project.
+WSGI config for physicsexams project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'FSweb.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'physicsexams.settings')
 
 application = get_wsgi_application()

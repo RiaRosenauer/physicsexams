@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
-from FSapp.models import Exam, Exercise, Student, Professor, Subject, Course 
+from physicsexamsApp.models import Exam, Exercise, Student, Professor, Subject, Course 
 from django.http import JsonResponse 
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User

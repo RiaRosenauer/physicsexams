@@ -1,5 +1,5 @@
 from django.contrib import admin
-from FSapp.models import Exam, Exercise, Student,Professor, Subject, Course
+from physicsexamsApp.models import Exam, Exercise, Student,Professor, Subject, Course
 # Register your models here.
 
 admin.site.register(Exam)

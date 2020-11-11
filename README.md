@@ -2,12 +2,12 @@
 This django project is a suggestion for a website helping TUM physics students to organize their learning for exams. 
 
 Currently there are two important branches: 
-- master:  a working version of the Website where students can log themselves in, in order to remember the tasks that they already worked on.
+- main:  a working version of the Website where students can log themselves in, in order to remember the tasks that they already worked on.
 - anonymous: a working version of the Website without any user data storage so that no problems with data protection occure.
 
 ## installation
 Depending on branch:
-- master:
+- main:
     No matter what you do it is very important to create a user calles placeholderuser and a student
     with the placeholderuser as user. If you don't do this, the app will not be running. The following is one suggestion, that certainly works:
     ```console

@@ -27,7 +27,7 @@ Depending on branch:
     Go to the Students model and also create a student there with the placeholder user as user.
     Now **log yourself out** again. The website should be running!
 - anonymous:
- ```console
+    ```console
     foo@bar:~$ pip install -r requirements.txt
     foo@bar:~$ python manage.py makemigrations physicsexamsApp
     foo@bar:~$ python manage.py makemigrations

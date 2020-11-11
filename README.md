@@ -37,7 +37,8 @@ Depending on branch:
 
 ## database
 In order to use a PostgreSQL database, change the current settings for the database to:
-```DATABASES = {
+```
+DATABASES = {
  
     'default': {
  
@@ -55,4 +56,5 @@ In order to use a PostgreSQL database, change the current settings for the datab
  
     }
  
-}```
+}
+```

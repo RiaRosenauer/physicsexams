@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     ##probably delete this
     'accounts',
 
-
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -152,3 +151,6 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+

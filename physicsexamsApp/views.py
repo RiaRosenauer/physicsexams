@@ -16,8 +16,12 @@ def home(request):
 def set_of_exercises(request): 
     search = request.GET.get('search') if request.GET.get('search') != None else ''
 
-    student = Student.objects.filter(user=request.user)[0] if request.user.is_authenticated else Student.objects.filter(user=User.objects.filter(username='placeholder')[0])[0]
-    #To DO 
+    print(Student.objects.filter(user=User.objects.filter(username='placeholder')[0])[0])
+    if request.user.is_authenticated:
+        student = Student.objects.filter(user=request.user)[0] 
+    else:
+        student = Student.objects.filter(user=User.objects.filter(username='placeholder')[0])[0]
+
     data = request.GET
 
     course = data.get('filter_course') if data.get('filter_course') != None else ''

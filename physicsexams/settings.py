@@ -46,14 +46,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'physicsexamsApp',
     'smart_selects',
-
-    ##probably delete this
     'accounts',
 
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
 ]
 
 SITE_ID = 1

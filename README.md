@@ -32,7 +32,6 @@ Depending on branch:
     foo@bar:~$ python manage.py makemigrations physicsexamsApp
     foo@bar:~$ python manage.py makemigrations
     foo@bar:~$ python manage.py migrate
-    foo@bar:~$ python manage.py createsuperuser
     ```
 
 

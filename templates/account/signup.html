@@ -1,11 +1,14 @@
-
 {% extends "base.html" %}
+{% load static %}
+
+
 {% load i18n %}
 {% load account %}
  
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
  
 {% block content %}
+<link rel="stylesheet" type='text/css' href="{% static 'physicsexamsApp/bootstrap.min.css' %}"></link>
 <div>
   <h1>{% trans "Sign Up" %}</h1>
  

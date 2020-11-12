@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
+from physicsexams.settings import BASE_DIR
 
 
 def home(request):
@@ -55,7 +56,7 @@ def set_of_exercises(request):
         'exercises': Exercise.objects.all(),
         'subjects': Subject.objects.all(),
         'courses': Course.objects.all(),
-
+        "BASE" : BASE_DIR,
 
     }
     print(student.solved_exercises.all())

@@ -1,5 +1,5 @@
 from allauth.account.forms import SignupForm
-from FSapp.models import Student
+from physicsexamsApp.models import Student
 
 
 class MyCustomSignupForm(SignupForm):

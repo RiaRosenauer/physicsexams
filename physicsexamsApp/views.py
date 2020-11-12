@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def home(request):
-    return render(request, 'FSapp/home.html')
+    return render(request, 'physicsexamsApp/home.html')
 
 
 def set_of_exercises(request): 
@@ -39,7 +39,7 @@ def set_of_exercises(request):
 
     if request.is_ajax():
         print(context['exercises'], 'jesdfsdf')
-        html = render_to_string('FSapp/exercise_query.html', context=context)
+        html = render_to_string('physicsexamsApp/exercise_query.html', context=context)
         return JsonResponse(html, safe=False) 
 
     mode = 'Aufgabensammlung' if request.get_full_path()=='/exerciseSet/Aufgabensammlung' else 'Klausur'
@@ -59,7 +59,7 @@ def set_of_exercises(request):
 
     }
     print(student.solved_exercises.all())
-    return render(request, 'FSapp/set_of_exercises.html', context=context)
+    return render(request, 'physicsexamsApp/set_of_exercises.html', context=context)
 
 @login_required
 def favourites(request):
@@ -70,7 +70,7 @@ def favourites(request):
         'courses': Course.objects.all(),
     }
 
-    return render(request, 'FSapp/favourites.html', context=context)
+    return render(request, 'physicsexamsApp/favourites.html', context=context)
 
 @login_required
 def to_repeat_ajax(request):
@@ -90,7 +90,7 @@ def to_repeat_ajax(request):
         'courses': Course.objects.all(),
         'exams': exams
         }
-        html = render_to_string('FSapp/to_repeat_exam.html', context=context)
+        html = render_to_string('physicsexamsApp/to_repeat_exam.html', context=context)
     else:
         subjects = set()
 
@@ -104,7 +104,7 @@ def to_repeat_ajax(request):
         'courses': Course.objects.all(),
         'subjects': subjects
         }
-        html = render_to_string('FSapp/to_repeat_subject.html', context=context)
+        html = render_to_string('physicsexamsApp/to_repeat_subject.html', context=context)
     return JsonResponse(html, safe=False) 
 
 @login_required
@@ -123,7 +123,7 @@ def to_repeat(request):
         'exams': exams
     }
 
-    return render(request, 'FSapp/to_repeat.html', context)
+    return render(request, 'physicsexamsApp/to_repeat.html', context)
 
 @login_required
 def exercise_view_ajax(request):
@@ -190,7 +190,7 @@ def exercise_view(request,pk):
     'MEDIA_URL':'/media/'
     }
 
-    return render(request, 'FSapp/exercise_view.html',context)
+    return render(request, 'physicsexamsApp/exercise_view.html',context)
 
 def exam_view(request, pk):
     exam = Exam.objects.filter(pk=pk)[0]
@@ -200,6 +200,6 @@ def exam_view(request, pk):
         'exercises':exam.exercise_set.all(),
     }
     print()
-    return render(request, 'FSapp/exam_view.html', context)
+    return render(request, 'physicsexamsApp/exam_view.html', context)
 
-# Create your views here.
+

@@ -48,7 +48,7 @@ DATABASES = {
  
         'USER': 'postgres',
  
-        'PASSWORD': 'blablabla',
+        'PASSWORD': 'Password1234',
  
         'HOST': 'localhost',
  
@@ -58,3 +58,6 @@ DATABASES = {
  
 }
 ```
+
+## directory structure
+The main project (meaning also the repo) will be called physicsexams later so in the physicsexams dircetory one can find 'basic' files like the settings.py and the base urls.py. The main features with all the views, models etc. are happening in physicsexamsApp. The accounts folder is something that django allauth needs. Almost nothing is happening there except that in forms.py a Student is created when a new user signes up. The signup, login and logout html pages are located under templates/account in the base folder.

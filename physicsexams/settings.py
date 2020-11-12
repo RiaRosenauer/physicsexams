@@ -30,11 +30,6 @@ ALLOWED_HOSTS = ['192.168.2.143', '127.0.0.1', '0.0.0.0' ]
 USE_DJANGO_JQUERY = True
 
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-
-ACCOUNT_FORMS = {'signup': 'accounts.forms.MyCustomSignupForm'}
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,27 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'physicsexamsApp',
     'smart_selects',
-
-    ##probably delete this
-    'accounts',
-
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
 ]
 
 SITE_ID = 1
 
-AUTHENTICATION_BACKENDS = [ 'django.contrib.auth.backends.ModelBackend',
-                           'allauth.account.auth_backends.AuthenticationBackend'] 
+AUTHENTICATION_BACKENDS = [ 'django.contrib.auth.backends.ModelBackend'] 
 
-EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
-
-ACCOUNT_AUTHENTICATION_METHOD = 'email' 
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory' 
-ACCOUNT_USERNAME_REQUIRED = False
 
 
 MIDDLEWARE = [

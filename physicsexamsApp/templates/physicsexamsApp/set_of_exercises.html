@@ -197,17 +197,16 @@
    
     {% for exam in exams %}
     <tr class='trSpecial' >
-      <td class='completed thick' id='completed' value='{{ exam.1 }}' width='5%'>{{ exam.1 }}% </td>
-      <td><a href='{% url "exam_view" exam.0.pk %}'><u> {{ exam.0 }}</u></a></td>
-      <td>{{ exam.0.year }}</td>
-      <td>{{ exam.0.professor }}</td>
+      <td><a href='{% url "exam_view" exam.pk %}'><u> {{ exam }}</u></a></td>
+      <td>{{ exam.year }}</td>
+      <td>{{ exam.professor }}</td>
     </tr>
     
     <tr value='asdasdas' >
       <td ></td>
       <td colspan='3'>
-        <div id='{{exam.0.pk}}' class='slide hide'>
-          {% for exercise in exam.0.exercise_set.all %}
+        <div id='{{exam.pk}}' class='slide hide'>
+          {% for exercise in exam.exercise_set.all %}
           <dl>
            {% if exercise in request.user.student.solved_exercises.all %} 
            <b><a style='color:#00ff00;'>&#x2713;</a></b> 
@@ -260,29 +259,6 @@ $('#sort').click(function(){
 })
 
 
-//Percentage interpolation for completedness
-$('.completed').attr('style', function(){
-  console.log('helo');
-  
-  var percent = parseInt($(this).html().slice(0,-1))/100;
-  if(percent <= 0.5){
-    top = 'ff';
-    mid = '00';
-  }else{
-    var top = Math.round(510*(1-percent)).toString(16);
-    var mid = Math.round(-255 + 510*percent).toString(16);
-  
-    if(Math.round(127*(1-percent)) < 16){
-      top = '0'+top;
-    }
-    if(Math.round(127 + 127*percent) < 16){
-      mid = '0'+mid;
-    }
-  }
-  
-  return 'color:#'+top+mid+'00'
-});
-//$('.completed').attr('style','color:#ffffff')
 
 //Slide Down of Exercises in Exam within table
 $('tr').click(function(){

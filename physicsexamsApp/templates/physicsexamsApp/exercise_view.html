@@ -58,30 +58,6 @@ div.container {
 <button class='btn btn-light' id='solution_click'>Lösung</button>
 
 
-{% if user.is_authenticated %}
-{% if favourite_exercise%}
-<button class='btn btn-primary active' id='favourite'>&#x2605;</button>
-{%else%}
-<button class='btn btn-light' id='favourite'>&#x2605;</button>
-{%endif%}
-
-<div class='btn-group btn-group-sm' id="solved_buttons"> 
-{% if already_done%}
-  {% if solved%}
-    <button type='button' class='btn btn-primary active' id='solved'>Geschafft</button>
-    <button type='button' class='btn btn-light' id='not_solved'>Wiederholen</button>
-  {%else%}
-    <button type='button' class='btn btn-light' id='solved'>Geschafft</button>
-    <button type='button' class='btn btn-primary active' id='not_solved'>Wiederholen</button>
-  {%endif%}
-{%else%}
-  <button type='button' class='btn btn-light' id='solved'>Geschafft</button>
-  <button type='button' class='btn btn-light' id='not_solved'>Wiederholen</button>
-{%endif%}
-</div> 
-{%endif%}
-
-
 <div id='solution'  class='card' >
    <br><br>
    <center>
@@ -103,54 +79,6 @@ $('#solution_click').click(function(){
 });
 
 
-
-$('#favourite').click(function(){
-    if ($(this).attr('class') == 'btn btn-primary active'){
-      $(this).attr('class', 'btn btn-light')
-      favourite = false
-    } else{
-      $(this).attr('class', 'btn btn-primary active')
-      favourite = true
-    }
-    $.ajax({
-      url:'favourite_ajax',
-      data: {
-        'favourite': favourite,
-        'exercise': '{{exercise.pk}}',
-      },
-      dataType:'json',
-    });
-
-  });
-
-  $('#solved').click(function(){
-    $(this).attr('class', 'btn btn-primary active');
-    $('#not_solved').attr('class', 'btn btn-light');
-
-
-    $.ajax({
-      url:'currentExercise_ajax',
-      data: {
-        'solved': true,
-        'exercise': '{{exercise.pk}}',
-      },
-      dataType:'json',
-    });
-  });
-
-  $('#not_solved').click(function(){
-    $(this).attr('class', 'btn btn-primary active');
-    $('#solved').attr('class', 'btn btn-light');
-
-    $.ajax({
-      url:'currentExercise_ajax',
-      data: {
-        'solved': false,
-        'exercise': '{{exercise.pk}}',
-      },
-      dataType:'json',
-    });
-  });
 
 
   // If absolute URL from the remote server is provided, configure the CORS

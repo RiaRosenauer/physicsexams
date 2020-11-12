@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User 
 from django_mysql.models import ListCharField 
 from smart_selects.db_fields import ChainedManyToManyField
 
@@ -88,15 +87,3 @@ class Exercise(models.Model):
     
     def __str__(self):
         return self.name
-
-class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    solved_exercises = models.ManyToManyField(Exercise, null=True, blank=True,related_name='student_solved')
-
-    failed_exercises = models.ManyToManyField(Exercise,null=True, blank=True, related_name='student_failed')
-
-    favourite_exercises = models.ManyToManyField(Exercise,null=True, blank=True, related_name='student_favourite')
-
-    def __str__(self):
-        return self.user.username

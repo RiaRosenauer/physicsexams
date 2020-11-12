@@ -12,13 +12,7 @@
     {% for ex in exercises %}
     <tr class='trSpecial'>
           <td> <a> </a>
-            
-            {% if ex in student.solved_exercises.all %}
-            <b><h5 style='color:#00ff00;'> &#x2713;</h5></b> 
-            
-            {% else %}
             <b><h5 style='color:#ff0000'>&#x2717;</h5></b>
-            {% endif %}
             
           </td>
         <td><a href='{% url "exercise_view" ex.pk %}' data-html='true' data-toggle="popover" title="{{ ex.name }}" 

@@ -1,90 +1,85 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<link rel="stylesheet" type='text/css' href="{% static 'physicsexamsApp/bootstrap.min.css' %}"></link>
+
+<link rel="stylesheet" type='text/css' href="{% static 'physicsexamsApp/bootstrap-select.css' %}"></link>
+<script src="{% static 'physicsexamsApp/bootstrap-select.js' %}"></script>
+
 <style>
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-    .text{
-      font-family: Georgia, 'Times New Roman', Times, serif;
-    }
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 10px;
-    }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .text{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 10px;
+  }
 
-    .trSpecial:hover {
-      box-shadow:  0px 0px 12px 1px rgba(0,0,0,0.2); 
-    }
+  .trSpecial:hover {
+    box-shadow:  0px 0px 12px 1px rgba(0,0,0,0.2); 
+  }
 
-    .selectTable:hover{
-      background-color: rgb(207, 207, 207);
-    }
+  .selectTable:hover{
+    background-color: rgb(207, 207, 207);
+  }
 
-    .popover{
-        max-width: 75%; /* Max Width of the popover (depending on the container!) */
-    }
+  .popover{
+      max-width: 75%; /* Max Width of the popover (depending on the container!) */
+  }
 
-    .hide{
-      display:none;
-    }
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
+  .hide{
+    display:none;
+  }
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
 
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      padding: 10px;
-      background-color: #f9f9f9;
-      min-width: 300px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
-    .thick {
-      font-weight: bold;
-    }
-
-    </style>
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    padding: 10px;
+    background-color: #f9f9f9;
+    min-width: 300px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  .thick {
+    font-weight: bold;
+  }
+</style>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-
-    </head>
-    <body>
-      <h1 style='font-family: Snell Roundhand, cursive;'>{{ mode }}</h1>
-    <br>
-    Suche<br><br>
-    <input type='text' id='search' placeholder="z.B. Drehmoment"><br><br>
-    <label for='filter_course'>Kurs</label>
-    <select id='filter_course' class="" style="width:auto;">
-      <option value=''>--egal--</option>
-      {% for course in courses %}
-      <option>{{ course }}</option>
-     {% endfor %}
-    </select>
-
-    <label for='filter_subjects'>Thema</label>
-    <select id='filter_subjects' class="selectpicker" style="width:auto;" data-live-search="true" multiple>
-      {% for subject in subjects %}
-      <option>{{ subject }}</option>
-      {% endfor %}
-    </select>  
-
+<h1 style='font-family: Snell Roundhand, cursive;'>{{ mode }}</h1>
     
-    <div class='dropdown' >
-      <button id='filter' class='btn btn-outline-primary' style='border-radius:0px; width:auto;' >&#9660;   Filter</button>
-      <div style="z-index:9999;width:25%" id='test' class='card dropdown-content'>
-       
-    
+<br>Suche<br><br>
+
+<input type='text' id='search' placeholder="z.B. Drehmoment"><br><br>
+<label for='filter_course'>Kurs</label>
+<select id='filter_course' class="" style="width:auto;">
+  <option value=''>--egal--</option>
+  {% for course in courses %}
+  <option>{{ course }}</option>
+  {% endfor %}
+</select>
+
+<label for='filter_subjects'>Thema</label>
+<select id='filter_subjects' class="selectpicker" style="width:auto;" data-live-search="true" multiple>
+  {% for subject in subjects %}
+  <option>{{ subject }}</option>
+  {% endfor %}
+</select>  
+
+<div class='dropdown' >
+  <button id='filter' class='btn btn-outline-primary' style='border-radius:0px; width:auto;' >&#9660;   Filter </button>
+  <div style="z-index:9999;width:25%" id='test' class='card dropdown-content'>
   
     <label for='filter_type'>Klausurtyp</label>
     <select id='filter_type' class="" style="width:auto;">
@@ -108,8 +103,6 @@
       <option>Default </option> 
     </select> <br>
   
-    
-  
     <label for='filter_difficulty'>Schwierigkeit</label>
     <select id='filter_difficulty' class="" style="width:auto;">
       <option value=''>--egal--</option>
@@ -124,114 +117,82 @@
       <option>Nicht Geschafft</option> 
       <option>Geschafft</option>
     </select> 
-      </div>
-    <br>
-    </div>
-    
-  <div class='dropdown'>
-    <button class='btn btn-outline-primary' style='border-radius:0px' id='sort'>&#9660; Sortieren</button>
-    <div class='dropdown-content' style="z-index:9999;width:25%" id='sort_setting'>
-    
-    </div>
   </div>
-
-
-  
-  
-
-
-    <button class='btn btn-primary' style='border-radius:0px' id='submit'>Submit</button>
-    <br><br>
-
-    {% if mode == 'Aufgabensammlung' %}
-    <table id='query_result' style='box-shadow:0px 0px 12px 1px rgba(0,0,0,0.2); padding:4px;' >
-      <tr>
-        <th></th>
-        <th>Aufgabe</th>
-        
-        <th>Fach</th>
-        <th>Themen</th>
-        
-        <th>Level</th>
-        
-      </tr>
-     
-      {% for ex in exercises %}
-      <tr class='trSpecial'>
-        <td><a href='{% url "exercise_view" ex.pk %}' data-html='true' data-toggle="popover" title="{{ ex.name }}" 
-          data-content='{{ ex.preview }}' style='color:#323dd1; '
-            id="popoverOption" class="btn" rel="popover"
-            data-placement="right" data-original-title="{{ ex.name }}"><u>{{ ex.name }}</u></a></td>
-       
-        <td>{{ ex.course }}</td>
-        <td>
-          {% for subject in ex.subject.all %}
-          {{ subject }};
-          {% endfor %}
-        </td>
-        <td>{{ ex.difficulty | safe}}</td>
-        
-
-      </tr>
-     {% endfor %}
+  <br>
+</div>
     
-    </table>
+<div class='dropdown'>
+  <button class='btn btn-outline-primary' style='border-radius:0px' id='sort'>&#9660; Sortieren</button>
+  <div class='dropdown-content' style="z-index:9999;width:25%" id='sort_setting'></div>
+</div>
+
+<button class='btn btn-primary' style='border-radius:0px' id='submit'>Submit</button>
+<br><br>
+
+{% if mode == 'Aufgabensammlung' %}
+<table id='query_result' style='box-shadow:0px 0px 12px 1px rgba(0,0,0,0.2); padding:4px;' >
+  <tr>
+    <th></th>
+    <th>Aufgabe</th>
+    <th>Fach</th>
+    <th>Themen</th>
+    <th>Level</th>
+  </tr>
+  
+  {% for ex in exercises %}
+  <tr class='trSpecial'>
+    <td><a href='{% url "exercise_view" ex.pk %}' data-html='true' data-toggle="popover" title="{{ ex.name }}" 
+        data-content='{{ ex.preview }}' style='color:#323dd1; '
+        id="popoverOption" class="btn" rel="popover"
+        data-placement="right" data-original-title="{{ ex.name }}"><u>{{ ex.name }}</u></a>
+    </td>
+    <td>{{ ex.course }}</td>
+    <td>
+      {% for subject in ex.subject.all %}
+      {{ subject }};
+      {% endfor %}
+    </td>
+    <td>{{ ex.difficulty | safe}}</td>
+  </tr>
+  {% endfor %}
+</table>
     
   {% else %}
   <table id='query_result' style='box-shadow:0px 0px 12px 1px rgba(0,0,0,0.2); padding:4px;' >
     <tr>
       <th></th>
       <th>Klausur</th>
-     <th>Jahr</th>
-     <th>Professor</th>
+      <th>Jahr</th>
+      <th>Professor</th>
     </tr>
    
     {% for exam in exams %}
-    <tr class='trSpecial' >
-      <td><a href='{% url "exam_view" exam.pk %}'><u> {{ exam }}</u></a></td>
-      <td>{{ exam.year }}</td>
-      <td>{{ exam.professor }}</td>
-    </tr>
-    
-    <tr value='asdasdas' >
-      <td ></td>
-      <td colspan='3'>
-        <div id='{{exam.pk}}' class='slide hide'>
-          {% for exercise in exam.exercise_set.all %}
-          <dl>
-           {% if exercise in request.user.student.solved_exercises.all %} 
-           <b><a style='color:#00ff00;'>&#x2713;</a></b> 
-           {% else %}
-           <b><a style='color:#ff0000'>&#x2717;</a></b>
-           {% endif %}
-           <a href='{% url "exercise_view" exercise.pk %}'><u><i>{{ exercise }}</i></u><a>        {{ exercise.difficulty | safe}}
-          </dl>
-          
-          {% endfor %}
-          
-        </div>
-      </td>
+      <tr class='trSpecial' >
+        <td><a href='{% url "exam_view" exam.pk %}'><u> {{ exam }}</u></a></td>
+        <td>{{ exam.year }}</td>
+        <td>{{ exam.professor }}</td>
+      </tr>
       
-    </tr>
-
-    
-      
-    
-  
-   {% endfor %}
-  
+      <tr value='asdasdas' >
+        <td ></td>
+        <td colspan='3'>
+          <div id='{{exam.0.pk}}' class='slide hide'>
+            {% for exercise in exam.exercise_set.all %}
+              <dl>
+                <a href='{% url "exercise_view" exercise.pk %}'><u><i>{{ exercise }}</i></u><a>        {{ exercise.difficulty | safe}}
+              </dl>
+            {% endfor %}
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
   </table>
 
-  {% endif %}
+{% endif %}
 
-  
-      
-      
-      
 <script>
 
-//$('select').selectpicker(); 
-//filter
+//Filter fuer die Suche 
 $('#filter').click(function(){
   if($('#test').is(':hidden')){
     $('body').attr('style','background:#dddddd')
@@ -240,7 +201,7 @@ $('#filter').click(function(){
   $('#test').slideToggle();
 })
 
-//sorting
+//Sortierung der Suchergebnisse
 $('#sort').click(function(){
   if($('#sort_setting').is(':hidden')){
     $('body').attr('style','background:#dddddd')
@@ -250,13 +211,12 @@ $('#sort').click(function(){
 })
 
 
-
 //Slide Down of Exercises in Exam within table
 $('tr').click(function(){
   $(this).next('tr').find('.slide').slideToggle();
 })
 
-//Preview of Exercise
+//Preview von Aufgabe
 $(document).ready(function(){
   $('[data-toggle="popover"]').popover();   
 });
@@ -271,11 +231,8 @@ $('#submit').click( function() {
     
     $.ajax({
       url:'Aufgabensammlung',
-      
-   
       data: {
         'search':$('#search').val(),
-        
         'filter_course':$('#filter_course').val(),
         'filter_type':$('#filter_type').val(),
         'filter_year':$('#filter_year').val(),
@@ -287,16 +244,10 @@ $('#submit').click( function() {
         console.log(data);
         $('#query_result').html(data);
         $('.btn').popover({ trigger: "hover" });
-
       }
     })
-  })
+  });
 
-
-
-  $('#filter_type').click(function(){
-    console.log($(this).val())
-  })
 </script>
     
 {% endblock %}

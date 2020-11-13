@@ -1,9 +1,63 @@
-# FS_website
-This project is a suggestion for a website helping TUM physics students to organize their learning for exams. It will hopefully end up as a project of the Fachschaft. The Website is currently implemented with the help of Django. 
-We are using the following plugins, that you should install, in order to run the app:
-- https://django-smart-selects.readthedocs.io/en/latest/installation.html
-- django-allauth
-- django-mysql
-- python -m pip install pillow????
+# physicsexams
+This django project is a suggestion for a website helping TUM physics students to organize their learning for exams. 
 
-Requirements.txt is coming soon!!
+Currently there are two important branches: 
+- main:  a working version of the Website where students can log themselves in, in order to remember the tasks that they already worked on.
+- anonymous: a working version of the Website without any user data storage so that no problems with data protection occure.
+
+## installation
+Depending on branch:
+- main:
+    No matter what you do it is very important to create a user calles placeholderuser and a student
+    with the placeholderuser as user. If you don't do this, the app will not be running. The following is one suggestion, that certainly works:
+    ```console
+    foo@bar:~$ pip install -r requirements.txt
+    foo@bar:~$ python manage.py makemigrations physicsexamsApp
+    foo@bar:~$ python manage.py makemigrations
+    foo@bar:~$ python manage.py migrate
+    foo@bar:~$ python manage.py createsuperuser
+    ```
+    Create a superuser for yourself. You can leave the e-mail field empty by simply pressing enter. 
+    Remember your password because you need it for the next step:
+    ```console
+    foo@bar:~$ python manage.py runserver
+    ```
+    Now copy the url and manually navigate in the url bar to localhost/admin.
+    Logyourself in with the created superuser and create a User with the username placeholder.
+    Go to the Students model and also create a student there with the placeholder user as user.
+    Now **log yourself out** again. The website should be running!
+- anonymous:
+    ```console
+    foo@bar:~$ pip install -r requirements.txt
+    foo@bar:~$ python manage.py makemigrations physicsexamsApp
+    foo@bar:~$ python manage.py makemigrations
+    foo@bar:~$ python manage.py migrate
+    ```
+
+
+## database
+In order to use a PostgreSQL database, change the current settings for the database to:
+```
+DATABASES = {
+ 
+    'default': {
+ 
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+ 
+        'NAME': 'test',
+ 
+        'USER': 'postgres',
+ 
+        'PASSWORD': 'Password1234',
+ 
+        'HOST': 'localhost',
+ 
+        'PORT': '5432',
+ 
+    }
+ 
+}
+```
+
+## directory structure
+The main project (meaning also the repo) will be called physicsexams later so in the physicsexams dircetory one can find 'basic' files like the settings.py and the base urls.py. The main features with all the views, models etc. are happening in physicsexamsApp. The accounts folder is something that django allauth needs. Almost nothing is happening there except that in forms.py a Student is created when a new user signes up. The signup, login and logout html pages are located under templates/account in the base folder.

@@ -45,17 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-
-    #Native Apps 
     'physicsexamsApp',
-    'accounts', #Probably delete this
-
-    #Imported Apps
+    'accounts',
     'smart_selects',
-
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
 ]
 
 SITE_ID = 1

@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+
+<script src='{% static "physicsexamsApp/jQuery.js" %}'></script>
+<script src='{% static "physicsexamsApp/bootstrap.bundle.min.js"%}'></script>
+<script src='{% static "physicsexamsApp/pdf.js" %}'></script>
+<link rel="stylesheet" type='text/css' href="{% static 'physicsexamsApp/bootstrap.min.css' %}"></link>
+
+<style>
+  div.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+  }
+
+  div.header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    font-size: 40px;
+  }
+
+  div.container {
+    padding: 10px;
+  }
+</style>
+
+
+<a href='{% url "set_of_exercises_a" %}'>Zurück</a>
+<center>
+  <h1>{{ exercise }}</h1>
+  <br>
+  <div class='btn btn-primary'>{% for exam in exams %}{{ exam.professor }}{% endfor %}</div>
+  <div class='btn btn-success'>{{ exercise.year }}</div>
+  <div class='btn btn-danger'>{{ exercise.course }}</div>
+  <div class='btn btn-light'>{{ exercise.difficulty | safe}}</div>
+  <!-- Hier wird die Aufgabe in PDF Form angezeigt -->
+  <div id="question_container" style='width:80vw'></div>
+</center>
+
+<br><br>
+
+<button class='btn btn-light' id='solution_click'>Lösung</button>
+
+{% if user.is_authenticated %}
+  {% if favourite_exercise %}
+      <button class='btn btn-primary active' id='favourite'>&#x2605;</button>
+    {%else%}
+      <button class='btn btn-light' id='favourite'>&#x2605;</button>
+  {%endif%}
+
+  <div class='btn-group btn-group-sm' id="solved_buttons"> 
+
+  {% if already_done %}
+    {% if solved %}
+      <button type='button' class='btn btn-primary active' id='solved'>Geschafft</button>
+      <button type='button' class='btn btn-light' id='not_solved'>Wiederholen</button>
+      {% else %}
+        <button type='button' class='btn btn-light' id='solved'>Geschafft</button>
+        <button type='button' class='btn btn-primary active' id='not_solved'>Wiederholen</button>
+    {% endif %}
+
+    {%else%}
+    <button type='button' class='btn btn-light' id='solved'>Geschafft</button>
+    <button type='button' class='btn btn-light' id='not_solved'>Wiederholen</button>
+  {%endif%}
+
+  </div> 
+{%endif%}
+
+<center>
+  <div id='solution'  class='card'>
+    <br><br>
+    <div id="answer_container" style='width:80vw'></div>
+    <br><br>
+  </div>
+</center>
+
+<script>
+
+//Solution-Element Animation + Display
+$('#solution').hide();
+
+$('#solution_click').click(function(){
+    console.log('sdfsdf');
+    $('#solution').slideToggle();
+});
+
+//Hinzufuegen zu Favoriten 
+$('#favourite').click(function(){
+  if ($(this).attr('class') == 'btn btn-primary active'){
+    $(this).attr('class', 'btn btn-light')
+    favourite = false
+  } else{
+    $(this).attr('class', 'btn btn-primary active')
+    favourite = true
+  }
+  $.ajax({
+    url:'favourite_ajax',
+    data: {
+      'favourite': favourite,
+      'exercise': '{{exercise.pk}}',
+    },
+    dataType:'json',
+  });
+});
+
+//Bearbeitungsstatus Solved or Not Solve
+$('#solved').click(function(){
+  $(this).attr('class', 'btn btn-primary active');
+  $('#not_solved').attr('class', 'btn btn-light');
+
+
+  $.ajax({
+    url:'currentExercise_ajax',
+    data: {
+      'solved': true,
+      'exercise': '{{exercise.pk}}',
+    },
+    dataType:'json',
+  });
+});
+
+$('#not_solved').click(function(){
+  $(this).attr('class', 'btn btn-primary active');
+  $('#solved').attr('class', 'btn btn-light');
+
+  $.ajax({
+    url:'currentExercise_ajax',
+    data: {
+      'solved': false,
+      'exercise': '{{exercise.pk}}',
+    },
+    dataType:'json',
+  });
+});
+
+//Skript zum Kompilieren des pdf's. 
+var url_question = "{{ MEDIA_URL }}{{ exercise.question }}";
+var url_answer = '{{ MEDIA_URL }}{{ exercise.answer }}'
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = '/static/physicsexamsApp/pdf.worker.js';
+  
+var pdf_loader =  function(pdf, container_id) {
+  console.log('PDF loaded');
+  // Durch das gesamte PDF werden nun die einzelnen Seiten durchiteriert
+  for(pageNumber=1; pageNumber <= pdf.numPages ; pageNumber ++){
+ 
+    pdf.getPage(pageNumber).then(function(page) {
+      console.log('Page loaded');
+      
+      var scale = 1.5;
+      var viewport = page.getViewport({scale: scale});
+
+      var canvas_create = document.createElement("canvas");
+      canvas_create.setAttribute("style", "border:0px; margin:0px; padding:0px; ")
+
+      var context = canvas_create.getContext('2d');
+      canvas_create.height = viewport.height;
+      canvas_create.width = viewport.width;
+
+      var renderContext = {
+        canvasContext: context,
+        viewport: viewport
+      };
+      var renderTask = page.render(renderContext);
+      renderTask.promise.then(function () {
+        console.log('Page rendered');
+      });
+      document.getElementById(container_id).appendChild(canvas_create)
+    });
+  }
+}; 
+
+var loadingTask = pdfjsLib.getDocument(url_question);
+loadingTask.promise.then(function(pdf){
+  pdf_loader(pdf, 'question_container');
+  });
+
+loadingTask = pdfjsLib.getDocument(url_answer); 
+loadingTask.promise.then(function(pdf){
+  pdf_loader(pdf, 'answer_container');
+  });
+
+</script>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,46 @@
+<!-- Suchergebenis von Stichwortsuche + Filter + Sortiertem von Aufgaben -->
+<tr>
+  <th></th>
+  <th>Aufgabe</th>
+  <th>Fach</th>
+  <th>Themen</th>
+  <th>Level</th>
+</tr>
+  
+{% for ex in exercises %}
+<tr class='trSpecial'>
+  <td> 
+    <a></a>
+    {% if ex in student.solved_exercises.all %}
+    <b><h5 style='color:#00ff00;'> &#x2713;</h5></b> 
+    
+    {% else %}
+    <b><h5 style='color:#ff0000'>&#x2717;</h5></b>
+    {% endif %}
+  </td>
+  <td>
+    <!-- Popover Logik -->
+    <a href='{% url "exercise_view" ex.pk %}' data-html='true' data-toggle="popover" title="{{ ex.name }}" 
+          data-content=" {{ ex.preview }} "
+          id="popoverOption" class="btn" href="#" data-content="Popup with option trigger" rel="popover"
+          data-placement="right" data-original-title="{{ ex.name }}"><u>{{ ex.name }}</u></a>
+  </td>
+
+  <td>
+    {{ ex.course }}
+  </td>
+  <td>
+    {% for subject in ex.subject.all %}
+    {{ subject }};
+    {% endfor %}
+  </td>
+  <td>
+    {{ ex.difficulty | safe}} 
+  </td>
+
+</tr>
+{% endfor %}
+
+
+
+    

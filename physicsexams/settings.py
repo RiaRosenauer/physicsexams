@@ -44,11 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'physicsexamsApp',
-    'smart_selects',
-    'accounts',
-
     'django.contrib.sites',
+    'physicsexamsApp',
+    'accounts',
+    'smart_selects',
     'allauth',
     'allauth.account',
 ]
@@ -145,6 +144,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    '/var/www/static/',
+]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

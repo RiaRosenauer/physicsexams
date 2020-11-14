@@ -1,3 +1,4 @@
+# This is not bugfree! Bugs are fixed in the next few days!
 # physicsexams
 This django project is a suggestion for a website helping TUM physics students to organize their learning for exams. 
 

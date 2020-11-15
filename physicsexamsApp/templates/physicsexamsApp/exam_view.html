@@ -4,8 +4,9 @@
 {% load static %}
 <script src='{% static "physicsexamsApp/jQuery.js" %}'></script>
 <script src='{% static "physicsexamsApp/bootstrap.bundle.min.js"%}'></script>
-<link ref='stylesheet' type="text/css" href='{% static "physicsexamsApp/bootstrap.min.css" %}'>
-  
+<script src='{% static "physicsexamsApp/pdf.js" %}'></script>
+<link rel="stylesheet" type='text/css' href="{% static 'physicsexamsApp/bootstrap.min.css' %}"></link>
+
 <style>
   div.card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -28,6 +29,66 @@
   }
 </style>
 
+
+<script>  
+  //Skript zum Kompilieren des pdf's. 
+  
+  var pdfjsLib = window['pdfjs-dist/build/pdf'];
+  
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '/static/physicsexamsApp/pdf.worker.js';
+    
+  var pdf_loader =  function(pdf, container_id) {
+    console.log('PDF loaded');
+    // Durch das gesamte PDF werden nun die einzelnen Seiten durchiteriert
+    for(pageNumber=1; pageNumber <= pdf.numPages ; pageNumber ++){
+   
+      pdf.getPage(pageNumber).then(function(page) {
+        console.log('Page loaded');
+        
+        var scale = 1.5;
+        var viewport = page.getViewport({scale: scale});
+  
+        var canvas_create = document.createElement("canvas");
+        canvas_create.setAttribute("style", "border:0px; margin:0px; padding:0px; ")
+  
+        var context = canvas_create.getContext('2d');
+        canvas_create.height = viewport.height;
+        canvas_create.width = viewport.width;
+  
+        var renderContext = {
+          canvasContext: context,
+          viewport: viewport
+        };
+        var renderTask = page.render(renderContext);
+        renderTask.promise.then(function () {
+          console.log('Page rendered');
+        });
+        console.log(container_id);
+        document.getElementById(container_id).appendChild(canvas_create)
+      });
+    }
+  }; 
+
+  function answer_pdf(url_answer, id) {
+    loadingTask = pdfjsLib.getDocument(url_answer); 
+    loadingTask.promise.then(function(pdf){
+    pdf_loader(pdf, id);
+    });
+  };
+
+  function question_pdf(url_question, id) {
+    var loadingTask = pdfjsLib.getDocument(url_question);
+  loadingTask.promise.then(function(pdf){
+    pdf_loader(pdf, 'question_container ' + parseInt(id));
+    });
+  }
+  
+  
+  </script>
+
+
+
+
 <a href='{% url "set_of_exercises_k" %}'>Zurück</a>
 
 <center>
@@ -47,79 +108,39 @@
 {% for exercise in exercises %}
 
   <br><br>  
+  <center>
+    <!-- Hier wird die Aufgabe in PDF Form angezeigt -->
+    <div id="question_container {{ exercise.id }}" style='width:80vw'></div>
+  </center>
+  <script>
+    var url_question = "{{ MEDIA_URL }}{{ exercise.question }}";
+    question_pdf(url_question, "{{exercise.id}}")
+ </script>
 
-  <button class='btn btn-light solution_click' id='{{exercise.id}}'>Lösung</button>
+  <button class='btn btn-light solution_click' id='{{exercise.id}}' answer="{{ MEDIA_URL }}{{ exercise.answer }}">Lösung</button>
+  <center>
+    <div class='solution card hide' id='sol{{exercise.id}}'>
+      <br><br>
+      <div id="answer_container {{exercise.id}}" style='width:80vw'></div>
+      <br><br>
+    </div>
+  </center>
 
-  <div class='btn-group btn-group-sm' id="solved_buttons"> 
-
-
-  <div class='solution card hide' id='sol{{exercise.id}}'></div>
 
   <br><br><br><br>
 {% endfor %}
+<script>
+  //Solution-Element Animation + Display
+  $('#solution').hide();
+  
+  $('.solution_click').click(function(){
+    console.log("triggered")
+      $('#sol'+$(this).attr('id')).slideToggle();
+
+      answer_pdf($(this).attr('answer'), 'answer_container ' + parseInt($(this).attr('id')));
+  });
+</script>
 
 <br><br><br><br>
-
-<script>
-
-//Solution-Element Animation + Display
-$('#solution').hide();
-
-$('.solution_click').click(function(){
-    $('#sol'+$(this).attr('id')).slideToggle();
-});
-
-
-//Hinzufuegen zu Favoriten 
-$('.favourite').click(function(){
-  if ($(this).attr('class') == 'btn btn-primary active favourite'){
-    $(this).attr('class', 'btn btn-light favourite')
-    favourite = false
-  } else{
-    $(this).attr('class', 'btn btn-primary active favourite')
-    favourite = true
-  }
-  console.log($(this).attr('id'));
-  $.ajax({
-    url:'{% url "favourite_ajax" %}',
-    data: {
-      'favourite': favourite,
-      'exercise': $(this).attr('id').toString(),
-    },
-    dataType:'json',
-  });
-});
-
-//Bearbeitungsstatus Solved or Not Solved
-$('#solved').click(function(){
-  $(this).attr('class', 'btn btn-primary active');
-  $('#not_solved').attr('class', 'btn btn-light');
-
-
-  $.ajax({
-    url:'currentExercise_ajax',
-    data: {
-      'solved': true,
-      'exercise': '{{exercise.pk}}',
-    },
-    dataType:'json',
-  });
-});
-
-$('#not_solved').click(function(){
-  $(this).attr('class', 'btn btn-primary active');
-  $('#solved').attr('class', 'btn btn-light');
-
-  $.ajax({
-    url:'currentExercise_ajax',
-    data: {
-      'solved': false,
-      'exercise': '{{exercise.pk}}',
-    },
-    dataType:'json',
-  });
-});
-
-</script>
 
 {% endblock %}

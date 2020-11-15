@@ -66,6 +66,7 @@ def exam_view(request, pk):
     context={
         'exam':exam,
         'exercises':exam.exercise_set.all(),
+        'MEDIA_URL':'/media/'
     }
     print()
     return render(request, 'physicsexamsApp/exam_view.html', context)

@@ -51,6 +51,8 @@
     min-width: 300px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    animation: 1s;
+    
   }
   .thick {
     font-weight: bold;
@@ -60,25 +62,25 @@
 <h1 style='font-family: Snell Roundhand, cursive;'>{{ mode }}</h1>
     
 <br>Suche<br><br>
-
-<input type='text' id='search' placeholder="z.B. Drehmoment"><br><br>
-<label for='filter_course'>Kurs</label>
-<select id='filter_course' class="" style="width:auto;">
-  <option value=''>--egal--</option>
+{% csrf_token %}
+<input type='text' id='search' placeholder="z.B. Drehmoment" style="width: 30%; height:40px; border-color:black; border-width: 1px;"><br><br>
+<label for='filter_course'></label>
+<select id='filter_course' class="btn btn-light" style="border-radius:0px; width:auto;">
+  <option value=''>--Kurs--</option>
   {% for course in courses %}
   <option>{{ course }}</option>
   {% endfor %}
 </select>
 
-<label for='filter_subjects'>Thema</label>
-<select id='filter_subjects' class="selectpicker" style="width:auto;" data-live-search="true" multiple>
+<label for='filter_subjects'></label>
+<select id='filter_subjects' class="selectpicker" placeholder='asdasdasd' style="width:auto; border-color:black; border-width:1px" data-live-search="true" multiple>
   {% for subject in subjects %}
   <option>{{ subject }}</option>
   {% endfor %}
 </select>  
 
 <div class='dropdown' >
-  <button id='filter' class='btn btn-outline-primary' style='border-radius:0px; width:auto;' >&#9660;   Filter </button>
+  <button id='filter' class='btn btn-light' style='border-radius:0px; width:auto;' >  Filter </button>
   <div style="z-index:9999;width:25%" id='test' class='card dropdown-content'>
   
     <label for='filter_type'>Klausurtyp</label>
@@ -122,11 +124,11 @@
 </div>
     
 <div class='dropdown'>
-  <button class='btn btn-outline-primary' style='border-radius:0px' id='sort'>&#9660; Sortieren</button>
+  <button class='btn btn-light' style='border-radius:0px' id='sort'>Sortieren</button>
   <div class='dropdown-content' style="z-index:9999;width:25%" id='sort_setting'></div>
 </div>
 
-<button class='btn btn-primary' style='border-radius:0px' id='submit'>Submit</button>
+<button class='btn btn-dark' style='border-radius:0px' id='submit'>Submit</button>
 <br><br>
 
 {% if mode == 'Aufgabensammlung' %}
@@ -205,7 +207,7 @@
 
 <script>
 
-//Filter fuer die Suche 
+//Animation, Filter fuer die Suche 
 $('#filter').click(function(){
   if($('#test').is(':hidden')){
     $('body').attr('style','background:#dddddd')
@@ -214,7 +216,7 @@ $('#filter').click(function(){
   $('#test').slideToggle();
 })
 
-//Sortierung der Suchergebnisse
+//Animation, Sortierung der Suchergebnisse
 $('#sort').click(function(){
   if($('#sort_setting').is(':hidden')){
     $('body').attr('style','background:#dddddd')
@@ -258,8 +260,8 @@ $('.btn').popover({ trigger: "hover" , html:true, sanitize:false });
 //Search, Filter and Sort functionality of Exercises
 $('#submit').click( function() {
     
-    console.log($('#search').val());
-    console.log($('#query_result').html());
+    //console.log($('#search').val());
+    console.log($('#filter_subjects').val());
     
     $.ajax({
       url:'Aufgabensammlung',
@@ -268,8 +270,9 @@ $('#submit').click( function() {
         'filter_course':$('#filter_course').val(),
         'filter_type':$('#filter_type').val(),
         'filter_year':$('#filter_year').val(),
-        'filter_professor':$('#filter_professor').val(),
-        'filter_subjects':$('#filter_subjects').val(),
+        'filter_professor': $('#filter_professor').val(),
+        'filter_subjects': JSON.stringify($('#filter_subjects').val()),
+        'mode':"{{ mode }}"
       },
       dataType:'json',
       success: function(data){
@@ -279,6 +282,13 @@ $('#submit').click( function() {
       }
     })
   });
+
+$(document).keypress( function(event){
+  if(event.keyCode == 13){
+    $('#submit').click();
+  }
+  
+})
 
 </script>
     

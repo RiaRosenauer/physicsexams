@@ -6,6 +6,8 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+import json 
 
 from physicsexams.settings import BASE_DIR
 
@@ -17,30 +19,37 @@ def home(request):
 def set_of_exercises(request): 
     search = request.GET.get('search') if request.GET.get('search') != None else ''
 
-    print(Student.objects.filter(user=User.objects.filter(username='placeholder')[0])[0])
     if request.user.is_authenticated:
         student = Student.objects.filter(user=request.user)[0] 
     else:
         student = Student.objects.filter(user=User.objects.filter(username='placeholder')[0])[0]
 
-    data = request.GET
-
-    course = data.get('filter_course') if data.get('filter_course') != None else ''
-    exam_type = data.get('filter_exam_type') if data.get('filter_exam_type') != None else '' 
-    year = data.get('filter_year') if data.get('filter_year') != None else '' 
-    subjects = data.get('filter_subjects') if data.get('filter_subjects') != None else '' 
-
-    #fiter search and year.
-    exercises = Exercise.objects.filter(name__icontains=search,  year__icontains=year)
-    #filter course 
-    context ={
-        'exercises': Exercise.objects.filter(name__icontains=search),
-        'student':student,
-    }
-
+    
     if request.is_ajax():
-        print(context['exercises'], 'jesdfsdf')
-        html = render_to_string('physicsexamsApp/exercise_query.html', context=context)
+        data = request.GET
+
+        course = data.get('filter_course') if data.get('filter_course') != None else ''
+        exam_type = data.get('filter_exam_type') if data.get('filter_exam_type') != None else '' 
+        year = data.get('filter_year') if data.get('filter_year') != None else '' 
+        subjects = json.loads(data.get('filter_subjects')) if data.get('filter_subjects') != None else '' 
+
+        q = Q()
+        for subject in subjects:
+            q |= Q(subject__name__icontains = subject)
+        #filter search and year.
+        exercises = Exercise.objects.filter(name__icontains=search, course__name__icontains=course)
+        #exercises = exercises.filter(course__name__icontains=course)
+        
+        print('subjects received!', subjects)
+        #test = Exercise.objects.filter(subject__name__icontains= subjects[0])
+        #print(test)
+        #filter course 
+        context ={
+            'exercises': exercises,
+            'student':student,
+        }
+
+        html = render_to_string('physicsexamsApp/exercise_query_ajax.html', context=context)
         return JsonResponse(html, safe=False) 
 
     mode = 'Aufgabensammlung' if request.get_full_path()=='/exerciseSet/Aufgabensammlung' else 'Klausur'

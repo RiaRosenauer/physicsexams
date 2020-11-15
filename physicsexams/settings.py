@@ -27,6 +27,7 @@ DEBUG = True
 
 USE_DJANGO_JQUERY = True
 
+ALLOWED_HOSTS = ['192.168.188.20', '127.0.0.1']
 
 # Application definition
 

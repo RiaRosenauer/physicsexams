@@ -7,6 +7,9 @@ __pycache__/
 # C extensions
 *.so
 
+#media for copyright issued
+media/*
+
 # Distribution / packaging
 .Python
 build/

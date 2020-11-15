@@ -25,8 +25,6 @@ SECRET_KEY = 'z#u-%a&124o@(%_*@s=s%@7&9d6=hpln1hnhh!lp-+4k1@86tz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.2.143', '127.0.0.1', '0.0.0.0' ]
-
 USE_DJANGO_JQUERY = True
 
 

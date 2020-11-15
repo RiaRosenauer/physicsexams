@@ -132,7 +132,6 @@
 {% if mode == 'Aufgabensammlung' %}
 <table id='query_result' style='box-shadow:0px 0px 12px 1px rgba(0,0,0,0.2); padding:4px;' >
   <tr>
-    <th></th>
     <th>Aufgabe</th>
     <th>Fach</th>
     <th>Themen</th>
@@ -149,7 +148,7 @@
     <td>{{ ex.course }}</td>
     <td>
       {% for subject in ex.subject.all %}
-      {{ subject }};
+      {{ subject }}
       {% endfor %}
     </td>
     <td>{{ ex.difficulty | safe}}</td>
@@ -160,7 +159,6 @@
   {% else %}
   <table id='query_result' style='box-shadow:0px 0px 12px 1px rgba(0,0,0,0.2); padding:4px;' >
     <tr>
-      <th></th>
       <th>Klausur</th>
       <th>Jahr</th>
       <th>Professor</th>

@@ -72,7 +72,7 @@
   function answer_pdf(url_answer, id) {
     loadingTask = pdfjsLib.getDocument(url_answer); 
     loadingTask.promise.then(function(pdf){
-    pdf_loader(pdf, id);
+    pdf_loader(pdf, 'answer_container ' + parseInt(id));
     });
   };
 
@@ -81,8 +81,7 @@
   loadingTask.promise.then(function(pdf){
     pdf_loader(pdf, 'question_container ' + parseInt(id));
     });
-  }
-  
+  };
   
   </script>
 
@@ -114,10 +113,13 @@
   </center>
   <script>
     var url_question = "{{ MEDIA_URL }}{{ exercise.question }}";
-    question_pdf(url_question, "{{exercise.id}}")
+
+    question_pdf(url_question, "{{exercise.id}}");
+    var url_solution = "{{ MEDIA_URL }}{{ exercise.answer }}";
+    answer_pdf(url_solution, "{{exercise.id}}")
  </script>
 
-  <button class='btn btn-light solution_click' id='{{exercise.id}}' answer="{{ MEDIA_URL }}{{ exercise.answer }}">Lösung</button>
+  <button class='btn btn-light solution_click' id='{{exercise.id}}'>Lösung</button>
   <center>
     <div class='solution card hide' id='sol{{exercise.id}}'>
       <br><br>
@@ -136,8 +138,6 @@
   $('.solution_click').click(function(){
     console.log("triggered")
       $('#sol'+$(this).attr('id')).slideToggle();
-
-      answer_pdf($(this).attr('answer'), 'answer_container ' + parseInt($(this).attr('id')));
   });
 </script>
 
